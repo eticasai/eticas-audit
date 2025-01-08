@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 INSTALL_REQUIRES = [
-      'scikit-learn==1.5.2','bnlearn==0.10.2','networkx==3.4.2','matplotlib==3.9.2','pgmpy==0.1.26','numpy==1.26.4', 'pandas==2.2.3','scipy==1.11.4','statsmodels==0.14.4'
+      'numpy==2.1.2','pandas==2.2.3','scikit-learn==1.5.2'
       ]
 
 
