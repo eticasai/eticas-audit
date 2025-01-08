@@ -7,6 +7,10 @@ from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
+INSTALL_REQUIRES = [
+      'scikit-learn==1.5.2','bnlearn==0.10.2','networkx==3.4.2','matplotlib==3.9.2','pgmpy==0.1.26','numpy==1.26.4', 'pandas==2.2.3','scipy==1.11.4','statsmodels==0.14.4'
+      ]
+
 
 setup(
     name="eticas",
@@ -17,11 +21,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/your_username/eticas",
-    packages=find_packages(),
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-    ],
-    python_requires='>=3.6',
+    
+    install_requires=INSTALL_REQUIRES,
+    python_requires='>=3.11.9',
 )
 
