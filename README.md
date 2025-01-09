@@ -1,2 +1,11 @@
 # eticas-audit
-Eticas AI library to help with audits
+A Python library for calculating fairness metrics in ML models.
+
+## Installation
+
+1. Clone this repository.
+2. In the root folder, run:
+
+```bash
+pip install .
+
