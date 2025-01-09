@@ -29,16 +29,13 @@ class Da_informative(BaseFairnessMetric):
         ----------
         :return: A dictionary containing the results for each group
         """
-        if input_data is None:
-            raise ValueError("You must provide dataset to compute "+self.__str__())
-        if sensitive_attrs is None:
-            raise ValueError("You must provide sensitive_attrs to compute "+self.__str__())
-        if label_column is None:
-            raise ValueError("You must provide label_column to compute "+self.__str__())
-        if input_features is None:
-            raise ValueError("You must provide input_features to compute "+self.__str__())
-
-
+        self.validate_parameters(
+            input_data=input_data,
+            sensitive_attrs=sensitive_attrs,
+            label_column=label_column,
+            input_features=input_features,
+        )
+        
         np.random.seed(123)
 
         input_data = input_data.dropna()

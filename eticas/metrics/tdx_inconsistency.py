@@ -29,6 +29,16 @@ class Tdx_inconsistency(BaseFairnessMetric):
         ----------
         :return: A dictionary containing the results for each group
         """
+        self.validate_parameters(
+            sensitive_attrs=sensitive_attrs,
+            input_features=input_features,
+            input_data_dev=input_data_dev,
+            output_column_dev=output_column_dev,
+            positive_output_dev=positive_output_dev,
+            input_data_prod=input_data_prod,
+            output_column_prod=output_column_prod,
+            positive_output_prod=positive_output_prod
+        )
         if input_data_dev is None:
             raise ValueError("You must provide input_data_dev to compute "+self.__str__())
         if input_data_prod is None:

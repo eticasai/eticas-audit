@@ -20,11 +20,10 @@ class Da_inconsistency(BaseFairnessMetric):
         ----------
         :return: A dictionary containing the results for each group
         """
-        if input_data is None:
-            raise ValueError("You must provide dataset to compute "+self.__str__())
-        if sensitive_attrs is None:
-            raise ValueError("You must provide sensitive_attrs to compute "+self.__str__())
-
+        self.validate_parameters(
+            input_data=input_data,
+            sensitive_attrs=sensitive_attrs
+        )
 
     
         json_groups = sensitive_attrs

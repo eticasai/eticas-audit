@@ -45,7 +45,13 @@ class BaseFairnessMetric(ABC):
         return 'Low/no bias' if value > 80 else 'High bias' if value <= 60 else 'Medium bias'
 
     
-    
+    def validate_parameters(self, **kwargs):
+        """
+        check input params are null or not.
+        """
+        for param_name, param_value in kwargs.items():
+            if param_value is None:
+                raise ValueError(f"You must provide a value for {param_name} to compute {self.__class__.__name__}")
     def __str__(self):
         """
         String representation of the metric.

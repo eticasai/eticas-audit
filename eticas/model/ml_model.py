@@ -379,53 +379,55 @@ class MLModel(BaseModel):
             for p in protected:
                 if p != 'error':
                     if self.training_results:
-                        df.loc[('benchmarking','da_inconsistency',p,'training'),'value'] = self.training_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
-                        df.loc[('benchmarking','da_positive',p,'training'),'value'] = self.training_results.get('da_positive', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_inconsistency',p,'01-training'),'value'] = self.training_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_positive',p,'01-training'),'value'] = self.training_results.get('da_positive', {}).get(p, {}).get('data', None)
                         
-                        df.loc[('distribution','dxa_inconsistency',p,'training'),'value'] = self.training_results.get('dxa_inconsistency', {}).get(p, {}).get('normalized_risk', None)
-                        df.loc[('distribution','da_informative',p,'training'),'value'] = self.training_results.get('da_informative', {}).get(p, {}).get('normalized_risk', None)
+                        df.loc[('distribution','dxa_inconsistency',p,'01-training'),'value'] = self.training_results.get('dxa_inconsistency', {}).get(p, {}).get('normalized_risk', None)
+                        df.loc[('distribution','da_informative',p,'01-training'),'value'] = self.training_results.get('da_informative', {}).get(p, {}).get('normalized_risk', None)
 
-                        df.loc[('fairness','d_parity',p,'training'),'value'] = self.training_results.get('d_parity', {}).get(p, {}).get('normalized_risk',None)
-                        df.loc[('fairness','d_statisticalparity',p,'training'),'value'] = self.training_results.get('d_statisticalparity', {}).get(p, {}).get('normalized_risk',None)
-                        df.loc[('fairness','d_equalodds_true',p,'training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('true_positive_rate', {}).get('normalized_risk',None)
-                        df.loc[('fairness','d_equalodds_false',p,'training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('false_positive_rate', {}).get('normalized_risk',None)
-                        df.loc[('fairness','d_calibrated_tru',p,'training'),'value'] = self.training_results.get('d_calibrated', {}).get(p, {}).get('true_calibrated', {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_parity',p,'01-training'),'value'] = self.training_results.get('d_parity', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_statisticalparity',p,'01-training'),'value'] = self.training_results.get('d_statisticalparity', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_equalodds_true',p,'01-training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('true_positive_rate', {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_equalodds_false',p,'01-training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('false_positive_rate', {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_calibrated_true',p,'01-training'),'value'] = self.training_results.get('d_calibrated', {}).get(p, {}).get('true_calibrated', {}).get('normalized_risk',None)
                         df.loc[('fairness','d_calibrated_false',p,'training'),'value'] = self.training_results.get('d_calibrated', {}).get(p, {}).get('false_calibrated', {}).get('normalized_risk',None)
                     
-                        df.loc[('performance','poor_performance',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('normalized_risk',None)
-                        df.loc[('performance','recall',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('recall',None)
-                        df.loc[('performance','f1',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('f1',None)
-                        df.loc[('performance','accuracy',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('accuracy',None)
-                        df.loc[('performance','precision',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('precision',None)
-                        df.loc[('performance','TP',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TP',None)
-                        df.loc[('performance','FP',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FP',None)
-                        df.loc[('performance','TN',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TN',None)
-                        df.loc[('performance','FN',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FN',None)
+                        df.loc[('performance','poor_performance',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('performance','recall',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('recall',None)
+                        df.loc[('performance','f1',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('f1',None)
+                        df.loc[('performance','accuracy',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('accuracy',None)
+                        df.loc[('performance','precision',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('precision',None)
+                        df.loc[('performance','TP',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TP',None)
+                        df.loc[('performance','FP',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FP',None)
+                        df.loc[('performance','TN',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TN',None)
+                        df.loc[('performance','FN',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FN',None)
 
                     if self.production_results:
-                        df.loc[('benchmarking','da_inconsistency',p,'production'),'value'] = self.production_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
-                        df.loc[('benchmarking','da_positive',p,'production'),'value'] = self.production_results.get('da_positive', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_inconsistency',p,'02-production'),'value'] = self.production_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_positive',p,'02-production'),'value'] = self.production_results.get('da_positive', {}).get(p, {}).get('data', None)
                         
-                        df.loc[('distribution','dxa_inconsistency',p,'production'),'value'] = self.production_results.get('dxa_inconsistency', {}).get(p, {}).get('normalized_risk', None)
-                        df.loc[('distribution','da_informative',p,'production'),'value'] = self.production_results.get('da_informative', {}).get(p, {}).get('normalized_risk', None)
+                        df.loc[('distribution','dxa_inconsistency',p,'02-production'),'value'] = self.production_results.get('dxa_inconsistency', {}).get(p, {}).get('normalized_risk', None)
+                        df.loc[('distribution','da_informative',p,'02-production'),'value'] = self.production_results.get('da_informative', {}).get(p, {}).get('normalized_risk', None)
                         
-                        df.loc[('fairness','d_parity',p,'production'),'value'] = self.production_results.get('d_parity', {}).get(p, {}).get('normalized_risk',None)
-                        df.loc[('fairness','d_statisticalparity',p,'production'),'value'] = self.production_results.get('d_statisticalparity', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_parity',p,'02-production'),'value'] = self.production_results.get('d_parity', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_statisticalparity',p,'02-production'),'value'] = self.production_results.get('d_statisticalparity', {}).get(p, {}).get('normalized_risk',None)
                     
                     if self.impacted_results:
-                        df.loc[('benchmarking','da_inconsistency',p,'impact'),'value'] = self.impacted_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
-                        df.loc[('benchmarking','da_positive',p,'impact'),'value'] = self.impacted_results.get('da_positive', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_inconsistency',p,'03-impact'),'value'] = self.impacted_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_positive',p,'03-impact'),'value'] = self.impacted_results.get('da_positive', {}).get(p, {}).get('data', None)
                         
-                        df.loc[('distribution','dxa_inconsistency',p,'impact'),'value'] = self.impacted_results.get('dxa_inconsistency', {}).get(p, {}).get('normalized_risk', None)
-                        df.loc[('distribution','da_informative',p,'impact'),'value'] = self.impacted_results.get('da_informative', {}).get(p, {}).get('normalized_risk', None)
+                        df.loc[('distribution','dxa_inconsistency',p,'03-impact'),'value'] = self.impacted_results.get('dxa_inconsistency', {}).get(p, {}).get('normalized_risk', None)
+                        df.loc[('distribution','da_informative',p,'03-impact'),'value'] = self.impacted_results.get('da_informative', {}).get(p, {}).get('normalized_risk', None)
 
-                        df.loc[('fairness','d_parity',p,'impact'),'value'] = self.impacted_results.get('d_parity', {}).get(p, {}).get('normalized_risk',None)
-                        df.loc[('fairness','d_statisticalparity',p,'impact'),'value'] = self.impacted_results.get('d_statisticalparity', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_parity',p,'03-impact'),'value'] = self.impacted_results.get('d_parity', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_statisticalparity',p,'03-impact'),'value'] = self.impacted_results.get('d_statisticalparity', {}).get(p, {}).get('normalized_risk',None)
                     
                     if self.drift_results:
-                        df.loc[('distribution','drift',p,'-'),'value'] = self.impacted_results.get('tdx_inconsistency', {}).get(p, {}).get('normalized_risk', None)
+                        df.loc[('distribution','drift',p,'-'),'value'] = self.drift_results.get('tdx_inconsistency', {}).get(p, {}).get('normalized_risk', None)
 
-                    
+        if self.drift_results:
+            df.loc[('distribution','drift','overall','-'),'value'] = self.drift_results.get('tdx_inconsistency', {}).get('overall', {}).get('normalized_risk', None)
+              
         df.sort_index(inplace=True)           
                     
         return df
@@ -443,53 +445,54 @@ class MLModel(BaseModel):
             for p in protected:
                 if p != 'error':
                     if self.training_results:
-                        df.loc[('benchmarking','da_inconsistency',p,'training'),'value'] = self.training_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
-                        df.loc[('benchmarking','da_positive',p,'training'),'value'] = self.training_results.get('da_positive', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_inconsistency',p,'01-training'),'value'] = self.training_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_positive',p,'01-training'),'value'] = self.training_results.get('da_positive', {}).get(p, {}).get('data', None)
                         
-                        df.loc[('distribution','dxa_inconsistency',p,'training'),'value'] = self.training_results.get('dxa_inconsistency', {}).get(p, {}).get('rate', None)
-                        df.loc[('distribution','da_informative',p,'training'),'value'] = self.training_results.get('da_informative', {}).get(p, {}).get('accuracy', None)
+                        df.loc[('distribution','dxa_inconsistency',p,'01-training'),'value'] = self.training_results.get('dxa_inconsistency', {}).get(p, {}).get('rate', None)
+                        df.loc[('distribution','da_informative',p,'01-training'),'value'] = self.training_results.get('da_informative', {}).get(p, {}).get('accuracy', None)
 
-                        df.loc[('fairness','d_parity',p,'training'),'value'] = self.training_results.get('d_parity', {}).get(p, {}).get('DI',None)
-                        df.loc[('fairness','d_statisticalparity',p,'training'),'value'] = self.training_results.get('d_statisticalparity', {}).get(p, {}).get('SPD',None)
-                        df.loc[('fairness','d_equalodds_true',p,'training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('true_positive_rate', {}).get('ratio_true',None)
-                        df.loc[('fairness','d_equalodds_false',p,'training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('false_positive_rate', {}).get('ratio_false',None)
-                        df.loc[('fairness','d_calibrated_tru',p,'training'),'value'] = self.training_results.get('d_calibrated', {}).get(p, {}).get('true_calibrated', {}).get('ratio_true',None)
-                        df.loc[('fairness','d_calibrated_false',p,'training'),'value'] = self.training_results.get('d_calibrated', {}).get(p, {}).get('false_calibrated', {}).get('ratio_false',None)
+                        df.loc[('fairness','d_parity',p,'01-training'),'value'] = self.training_results.get('d_parity', {}).get(p, {}).get('DI',None)
+                        df.loc[('fairness','d_statisticalparity',p,'01-training'),'value'] = self.training_results.get('d_statisticalparity', {}).get(p, {}).get('SPD',None)
+                        df.loc[('fairness','d_equalodds_true',p,'01-training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('true_positive_rate', {}).get('ratio_true',None)
+                        df.loc[('fairness','d_equalodds_false',p,'01-training'),'value'] = self.training_results.get('d_equalodds', {}).get(p, {}).get('false_positive_rate', {}).get('ratio_false',None)
+                        df.loc[('fairness','d_calibrated_true',p,'01-training'),'value'] = self.training_results.get('d_calibrated', {}).get(p, {}).get('true_calibrated', {}).get('ratio_true',None)
+                        df.loc[('fairness','d_calibrated_false',p,'01-training'),'value'] = self.training_results.get('d_calibrated', {}).get(p, {}).get('false_calibrated', {}).get('ratio_false',None)
                     
-                        df.loc[('performance','poor_performance',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('normalized_risk',None)
-                        df.loc[('performance','recall',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('recall',None)
-                        df.loc[('performance','f1',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('f1',None)
-                        df.loc[('performance','accuracy',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('accuracy',None)
-                        df.loc[('performance','precision',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('precision',None)
-                        df.loc[('performance','TP',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TP',None)
-                        df.loc[('performance','FP',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FP',None)
-                        df.loc[('performance','TN',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TN',None)
-                        df.loc[('performance','FN',p,'training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FN',None)
+                        df.loc[('performance','poor_performance',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('performance','recall',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('recall',None)
+                        df.loc[('performance','f1',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('f1',None)
+                        df.loc[('performance','accuracy',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('accuracy',None)
+                        df.loc[('performance','precision',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('precision',None)
+                        df.loc[('performance','TP',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TP',None)
+                        df.loc[('performance','FP',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FP',None)
+                        df.loc[('performance','TN',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('TN',None)
+                        df.loc[('performance','FN',p,'01-training'),'value'] =  self.training_results.get('poor_performance', {}).get(p, {}).get('FN',None)
 
                     if self.production_results:
-                        df.loc[('benchmarking','da_inconsistency',p,'production'),'value'] = self.production_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
-                        df.loc[('benchmarking','da_positive',p,'production'),'value'] = self.production_results.get('da_positive', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_inconsistency',p,'02-production'),'value'] = self.production_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_positive',p,'02-production'),'value'] = self.production_results.get('da_positive', {}).get(p, {}).get('data', None)
                         
-                        df.loc[('distribution','dxa_inconsistency',p,'production'),'value'] = self.production_results.get('dxa_inconsistency', {}).get(p, {}).get('rate', None)
-                        df.loc[('distribution','da_informative',p,'production'),'value'] = self.production_results.get('da_informative', {}).get(p, {}).get('accuracy', None)
+                        df.loc[('distribution','dxa_inconsistency',p,'02-production'),'value'] = self.production_results.get('dxa_inconsistency', {}).get(p, {}).get('rate', None)
+                        df.loc[('distribution','da_informative',p,'02-production'),'value'] = self.production_results.get('da_informative', {}).get(p, {}).get('accuracy', None)
                         
-                        df.loc[('fairness','d_parity',p,'production'),'value'] = self.production_results.get('d_parity', {}).get(p, {}).get('DI',None)
-                        df.loc[('fairness','d_statisticalparity',p,'production'),'value'] = self.production_results.get('S^D', {}).get(p, {}).get('normalized_risk',None)
+                        df.loc[('fairness','d_parity',p,'02-production'),'value'] = self.production_results.get('d_parity', {}).get(p, {}).get('DI',None)
+                        df.loc[('fairness','d_statisticalparity',p,'02-production'),'value'] = self.production_results.get('S^D', {}).get(p, {}).get('normalized_risk',None)
                     
                     if self.impacted_results:
-                        df.loc[('benchmarking','da_inconsistency',p,'impact'),'value'] = self.impacted_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
-                        df.loc[('benchmarking','da_positive',p,'impact'),'value'] = self.impacted_results.get('da_positive', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_inconsistency',p,'03-impact'),'value'] = self.impacted_results.get('da_inconsistency', {}).get(p, {}).get('data', None)
+                        df.loc[('benchmarking','da_positive',p,'03-impact'),'value'] = self.impacted_results.get('da_positive', {}).get(p, {}).get('data', None)
                         
-                        df.loc[('distribution','dxa_inconsistency',p,'impact'),'value'] = self.impacted_results.get('dxa_inconsistency', {}).get(p, {}).get('rate', None)
-                        df.loc[('distribution','da_informative',p,'impact'),'value'] = self.impacted_results.get('da_informative', {}).get(p, {}).get('accuracy', None)
+                        df.loc[('distribution','dxa_inconsistency',p,'03-impact'),'value'] = self.impacted_results.get('dxa_inconsistency', {}).get(p, {}).get('rate', None)
+                        df.loc[('distribution','da_informative',p,'03-impact'),'value'] = self.impacted_results.get('da_informative', {}).get(p, {}).get('accuracy', None)
 
-                        df.loc[('fairness','d_parity',p,'impact'),'value'] = self.impacted_results.get('d_parity', {}).get(p, {}).get('DI',None)
-                        df.loc[('fairness','d_statisticalparity',p,'impact'),'value'] = self.impacted_results.get('d_statisticalparity', {}).get(p, {}).get('SPD',None)
+                        df.loc[('fairness','d_parity',p,'03-impact'),'value'] = self.impacted_results.get('d_parity', {}).get(p, {}).get('DI',None)
+                        df.loc[('fairness','d_statisticalparity',p,'03-impact'),'value'] = self.impacted_results.get('d_statisticalparity', {}).get(p, {}).get('SPD',None)
                     
                     if self.drift_results:
-                        df.loc[('distribution','drift',p,'-'),'value'] = self.impacted_results.get('tdx_inconsistency', {}).get(p, {}).get('accuracy', None)
+                        df.loc[('distribution','drift',p,'-'),'value'] = self.drift_results.get('tdx_inconsistency', {}).get(p, {}).get('accuracy', None)
 
-                    
+        if self.drift_results:
+            df.loc[('distribution','drift','overall','-'),'value'] = self.drift_results.get('tdx_inconsistency', {}).get('overall', {}).get('accuracy', None)          
         df.sort_index(inplace=True)          
                     
         return df
