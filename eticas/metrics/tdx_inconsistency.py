@@ -16,7 +16,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
     Metric Drift
     """
 
-    def compute(self, sensitive_attrs: dict = None, 
+    def compute(self, sensitive_attrs: dict = None,
                 input_features: list = None,
                 input_data_dev: str = None,
                 output_column_dev: str = None,
@@ -49,17 +49,14 @@ class Tdx_inconsistency(BaseFairnessMetric):
             output_column_prod=output_column_prod,
             positive_output_prod=positive_output_prod
         )
-        
         column_output = 'inconsistency'
         # Set random seed
         np.random.seed(123)
         input_data_dev[column_output] = 0
         input_data_prod[column_output] = 1
-        
         len_dev = input_data_dev.shape[0]
         len_prod = input_data_prod.shape[0]
         total_len = np.sum([len_dev, len_prod])
-                                       
         proportion_data = np.max([len_dev, len_prod]) / total_len
 
         json_groups = sensitive_attrs
@@ -79,14 +76,12 @@ class Tdx_inconsistency(BaseFairnessMetric):
 
         if len(train_columns) == 0:
             raise ValueError("Input features are not in dataset.")
-        
+
         result_list = {}
 
         feat_columns = train_columns + sensitive_columns
-        
         if len(feat_columns) == 0:
             raise ValueError('length 0 of train and sensitive features is 0.')
-        
         data_dev = input_data_dev[feat_columns + [column_output]]
         data_prod = input_data_prod[feat_columns + [column_output]]
         data = pd.concat([data_dev, data_prod])
@@ -94,7 +89,6 @@ class Tdx_inconsistency(BaseFairnessMetric):
         train_data, test_data = train_test_split(data, test_size=0.3,
                                                  stratify=data[column_output],
                                                  random_state=123)
-        
         logistic_base = LogisticRegression(random_state=123)
         logistic_base.fit(train_data[feat_columns], train_data[column_output])
         predictions_base = logistic_base.predict(test_data[feat_columns])
@@ -109,13 +103,11 @@ class Tdx_inconsistency(BaseFairnessMetric):
                             'normalized_risk': normalized_risk,
                             'bias_level': self.get_bias_level(normalized_risk)
                             }})
-        
         for item in json_groups.items():
             group = item[0]
             sensitive_columns = []
 
             try:
-                    
                 if item[1]['type'] == 'simple':
 
                     filters = item[1]['columns']
@@ -124,8 +116,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
                     sensitive_columns.append(item[1]['columns'][0]['name'])
 
                 else:
-                    
-                    filters = np.concat([json_groups[c]['columns'] for c in item[1]['groups']]).tolist() 
+                    filters = np.concat([json_groups[c]['columns'] for c in item[1]['groups']]).tolist()
                     for filter in filters:
                         mask_privileged, mask_underprivileged = get_mask(input_data_dev, [filter])
                         mask_privileged_2, mask_underprivileged_2 = get_mask(input_data_prod, [filter])
@@ -135,7 +126,6 @@ class Tdx_inconsistency(BaseFairnessMetric):
 
                 data_dev = input_data_dev[mask_underprivileged][feat_columns + [column_output]]
                 data_prod = input_data_prod[mask_underprivileged_2][feat_columns + [column_output]]
-                
                 data = pd.concat([data_dev, data_prod])
                 # Split data (70% train, 30% test) based on the sensitive attribute
                 train_data, test_data = train_test_split(data, test_size=0.3,
@@ -154,7 +144,6 @@ class Tdx_inconsistency(BaseFairnessMetric):
                                             'normalized_risk': normalized_risk,
                                             'bias_level': self.get_bias_level(normalized_risk)
                                              }})
-            
             except KeyError:
                 # Captura cualquier ValueError lanzado por get_benchmarking
                 logger.error(f"Group no present in data: '{group}'")
@@ -166,9 +155,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
                                             'bias_level': self.get_bias_level(0),
                                             'error': 'group no present in data.'
                                             }})
-        
         logger.info(f"Completed: '{self.__str__()}'")
-            
         return result_list
 
     def extract_sensitive_columns(self, json_groups):
@@ -185,7 +172,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
                 columns.extend(column_data)
 
         return columns
-    
+
     def normalize_value(self, value):
         accuracy = value - 1
         if accuracy <= 0:
@@ -197,6 +184,6 @@ class Tdx_inconsistency(BaseFairnessMetric):
         elif accuracy >= 0.2:
             normalized = 60 - ((accuracy - 0.2) / 0.8) * 60
         else:
-            normalized = None  
+            normalized = None
 
         return normalized
