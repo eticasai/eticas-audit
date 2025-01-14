@@ -99,7 +99,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
         logistic_base.fit(train_data[feat_columns], train_data[column_output])
         predictions_base = logistic_base.predict(test_data[feat_columns])
         accuracy_base = np.round(accuracy_score(test_data[column_output],
-                                                predictions_base),4).item()
+                                                predictions_base), 4).item()
         rate = np.round(accuracy_base / proportion_data, 4).item()
         normalized_risk = np.round(self.normalize_value(rate), 4).item()
         result_list.update({'overall': {
@@ -172,7 +172,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
         return result_list
 
     def extract_sensitive_columns(self, json_groups):
-        
+
         columns = []
 
         for key, value in json_groups.items():
