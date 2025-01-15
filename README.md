@@ -22,7 +22,7 @@ With a wide range of metrics, this framework is a game-changer in bias monitorin
 - **Demographic Benchmarking Monitoring**: Perform in-depth analysis of population distribution.
 - **Model Fairness Monitoring**: Ensure equality and detect equity issues in decision-making.
 - **Distribution Evaluation**: Analyze correlations, causality, and variable importance.
-- **Performance Analysis**: Comprehensive tools to assess model performance, accuracy, and recall.
+- **Performance Analysis**: Metrics to assess model performance, accuracy, and recall.
 - **Model Drift Monitoring**: Detect and measure changes in data distributions and model behavior over time.
 
 

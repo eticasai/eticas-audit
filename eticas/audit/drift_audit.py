@@ -13,25 +13,28 @@ from ..metrics.tdx_inconsistency import Tdx_inconsistency
 import logging
 logger = logging.getLogger(__name__)
 
+
 class DriftAudit(BaseAudit):
     """
     Drift Audit.
     """
-
-
-    def run_audit(self, 
-                dataset_path_dev : str, output_column_dev : str, positive_output_dev : list,
-                dataset_path_prod : str, output_column_prod : str, positive_output_prod : list):
+    def run_audit(self,
+                  dataset_path_dev: str,
+                  output_column_dev: str,
+                  positive_output_dev: list,
+                  dataset_path_prod: str,
+                  output_column_prod: str,
+                  positive_output_prod: list):
         """
         Performs checks related to the unlabeled / production  dataset and process.
 
-        :param dataset_path : path to dataset.
-        :param output_column: Name of the column containing the prediction / classification.
-        :param positive_output: Values of the column_output consider as positive.
+       :param dataset_path: path to dataset.
+       :param output_column: Name of the column containing the prediction / classification.
+       :param positive_output: Values of the column_output consider as positive.
 
         Returns
         -------
-        :return: dict. The result of the unlabeled audit.
+       :return: dict. The result of the unlabeled audit.
         """
         # Example: Check for data imbalance, missing values, etc.
         logger.info(f"Running drift audit on model '{self.model.model_name}'")
@@ -47,12 +50,13 @@ class DriftAudit(BaseAudit):
         if input_data_prod.shape[0] == 0:
             raise ValueError("PROD data shape is 0.")
 
-
         drift_log = {}
-        drift_log.update({'tdx_inconsistency' : Tdx_inconsistency().compute(self.model.sensitive_attributes, self.model.features,
-                                                                input_data_dev, output_column_dev, positive_output_dev,
-                                                                input_data_prod, output_column_prod , positive_output_prod)})
-      
-        
-      
+        drift_log.update({'tdx_inconsistency': Tdx_inconsistency().compute(self.model.sensitive_attributes,
+                                                                           self.model.features,
+                                                                           input_data_dev,
+                                                                           output_column_dev,
+                                                                           positive_output_dev,
+                                                                           input_data_prod,
+                                                                           output_column_prod,
+                                                                           positive_output_prod)})
         return drift_log

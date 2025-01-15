@@ -7,6 +7,7 @@ Defines a base class for models in the eticas library.
 
 from abc import ABC
 
+
 class BaseModel(ABC):
     """
     Base class for a model in the eticas library.

@@ -9,13 +9,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
 def load_dataset(file_path: str) -> pd.DataFrame:
     """
     Loads a dataset from a .pkl, .parquet, or .csv file.
 
     Parameters
     ----------
-    file_path : str
+    file_path: str
         Full path to the file to be read.
 
     Returns
@@ -40,7 +41,7 @@ def load_dataset(file_path: str) -> pd.DataFrame:
 
     # 2. Identify the file extension
     _, extension = os.path.splitext(file_path)
-    extension = extension.lower()  
+    extension = extension.lower()
 
     # 3. Load the data based on the extension
     try:
@@ -65,5 +66,3 @@ def load_dataset(file_path: str) -> pd.DataFrame:
         raise e
 
     return df
-
-

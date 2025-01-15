@@ -1,16 +1,22 @@
 import numpy as np
 from .base_metric import BaseFairnessMetric
-from ..utils.helpers import get_mask,binarize_predictions
+from ..utils.helpers import get_mask, binarize_predictions
 import logging
 logger = logging.getLogger(__name__)
+
+
 class D_calibrated(BaseFairnessMetric):
     """
     Metric D(A)-positive
     Calculates the distribution of a given group when label is positive.
     """
 
-    def compute(self, input_data, sensitive_attrs=None,
-                label_column : str = None, positive_output : list = [1],output_column : str = None):
+    def compute(self,
+                input_data,
+                sensitive_attrs=None,
+                label_column: str = None,
+                positive_output: list = [1],
+                output_column: str = None):
         """
         Parameters
         ----------
@@ -33,91 +39,78 @@ class D_calibrated(BaseFairnessMetric):
         if not input_data[label_column].isin([0, 1]).all():
             # Convert to binary
             input_data[label_column] = binarize_predictions(input_data[label_column].values)
-        
         if not input_data[output_column].isin([0, 1]).all():
             # Convert to binary
             input_data[output_column] = binarize_predictions(input_data[output_column].values)
-        
-        
-
         json_groups = sensitive_attrs
-        
         result_list = {}
 
         for item in json_groups.items():
             group = item[0]
 
             try:
-                                
                 if item[1]['type'] == 'simple':
                     filters = item[1]['columns']
                 else:
-                    filters = np.concat([json_groups[c]['columns'] for c in item[1]['groups']]).tolist()     
+                    filters = np.concat([json_groups[c]['columns'] for c in item[1]['groups']]).tolist()
 
-                mask_privileged,mask_underprivileged = get_mask(input_data,filters)
-                
+                mask_privileged, mask_underprivileged = get_mask(input_data, filters)
                 data_underprivileged = input_data[mask_underprivileged].copy()
-                data_underprivileged_true = data_underprivileged[data_underprivileged[label_column].isin(positive_output)]
-                data_underprivileged_false = data_underprivileged[~data_underprivileged[label_column].isin(positive_output)]
-                
+                mask_positive_under = data_underprivileged[label_column].isin(positive_output)
+                data_underprivileged_true = data_underprivileged[mask_positive_under]
+                data_underprivileged_false = data_underprivileged[~mask_positive_under]
                 data_privileged = input_data[mask_privileged].copy()
-                data_privileged_true = data_privileged[data_privileged[label_column].isin(positive_output)]
-                data_privileged_false = data_privileged[~data_privileged[label_column].isin(positive_output)]
-                
+                mask_positive_privileged = data_privileged[label_column].isin(positive_output)
+                data_privileged_true = data_privileged[mask_positive_privileged]
+                data_privileged_false = data_privileged[~mask_positive_privileged]
                 mask_underprivileged_true = data_underprivileged_true[output_column].isin(positive_output)
                 mask_underprivileged_false = data_underprivileged_false[output_column].isin(positive_output)
-
                 mask_privileged_true = data_privileged_true[output_column].isin(positive_output)
                 mask_privileged_false = data_privileged_false[output_column].isin(positive_output)
-
                 underprivileged_true = mask_underprivileged_true.sum() / mask_underprivileged_true.shape[0]
                 underprivileged_false = mask_underprivileged_false.sum() / mask_underprivileged_false.shape[0]
-            
                 privileged_true = mask_privileged_true.sum() / mask_privileged_true.shape[0]
                 privileged_false = mask_privileged_false.sum() / mask_privileged_false.shape[0]
+                ratio_true = np.round(underprivileged_true / privileged_true, 4).item()
+                ratio_false = np.round(underprivileged_false / privileged_false, 4).item()
 
-                ratio_true = np.round(underprivileged_true / privileged_true,4).item()
-                ratio_false = np.round(underprivileged_false / privileged_false,4).item()
-
-                result_list.update({group : {
-                                            'true_calibrated' : {
-                                                'underprivileged' : np.round(underprivileged_true,4).item(),
-                                                'privileged' : np.round(privileged_true,4).item(),
-                                                'ratio_true' : ratio_true,
-                                                'normalized_risk' : np.round(self.normalize_value(ratio_true),4).item(),
-                                                'bias_level' : self.get_bias_level(self.normalize_value(ratio_true))
+                result_list.update({group: {
+                                        'true_calibrated': {
+                                            'underprivileged': np.round(underprivileged_true, 4).item(),
+                                            'privileged': np.round(privileged_true, 4).item(),
+                                            'ratio_true': ratio_true,
+                                            'normalized_risk': np.round(self.normalize_value(ratio_true), 4).item(),
+                                            'bias_level': self.get_bias_level(self.normalize_value(ratio_true))
+                                                                },
+                                        'false_calibrated': {
+                                            'underprivileged': np.round(underprivileged_false, 4).item(),
+                                            'privileged': np.round(privileged_false, 4).item(),
+                                            'ratio_false': ratio_false,
+                                            'normalized_risk': np.round(self.normalize_value(ratio_false), 4).item(),
+                                            'bias_level': self.get_bias_level(self.normalize_value(ratio_false))
+                                                                }
+                                                                }})
+            except KeyError:
+                # Captura cualquier ValueError lanzado por get_benchmarking
+                logger.error(f"Group no present in data: '{group}'")
+                result_list.update({group: {
+                                            'error': 'group no present in data.',
+                                            'true_calibrated': {
+                                                'underprivileged': 0,
+                                                'privileged': 0,
+                                                'ratio_true': 0,
+                                                'normalized_risk': None,
+                                                'bias_level': self.get_bias_level(0)
                                                                     },
-                                            'false_calibrated' : {
-                                                'underprivileged' : np.round(underprivileged_false,4).item(),
-                                                'privileged' : np.round(privileged_false,4).item(),
-                                                'ratio_false' : ratio_false,
-                                                'normalized_risk' : np.round(self.normalize_value(ratio_false),4).item(),
-                                                'bias_level' : self.get_bias_level(self.normalize_value(ratio_false))
+                                            'false_calibrated': {
+                                                'underprivileged': 0,
+                                                'privileged': 0,
+                                                'ratio_false': 0,
+                                                'normalized_risk': None,
+                                                'bias_level': self.get_bias_level(0)
                                                                     }
                                                                     }})
-            except KeyError as ve:
-                # Captura cualquier ValueError lanzado por get_benchmarking   
-                logger.error(f"Group no present in data: '{group}'") 
-                result_list.update({group : {
-                                            'error' : 'group no present in data.',
-                                            'true_calibrated' : {
-                                                'underprivileged' : 0,
-                                                'privileged' : 0,
-                                                'ratio_true' : 0,
-                                                'normalized_risk' : None,
-                                                'bias_level' : self.get_bias_level(0)
-                                                                    },
-                                            'false_calibrated' : {
-                                                'underprivileged' : 0,
-                                                'privileged' : 0,
-                                                'ratio_false' : 0,
-                                                'normalized_risk' : None,
-                                                'bias_level' : self.get_bias_level(0)
-                                                                    }
-                                                                    }})      
-        
         logger.info(f"Completed: '{self.__str__()}'")
-            
         return result_list
 
     def normalize_value(self, value):
@@ -143,5 +136,4 @@ class D_calibrated(BaseFairnessMetric):
             normalized = x * (60 - 0) / 0.5
         else:
             normalized = 0
-        
         return normalized

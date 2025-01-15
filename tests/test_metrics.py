@@ -1,55 +1,54 @@
 # run test python -m unittest discover tests
 
+import logging
+from eticas.metrics.performance import Performance
+from eticas.metrics.d_parity import D_parity
+from eticas.metrics.d_statisticalparity import D_statisticalparity
+from eticas.metrics.da_informative import Da_informative
+from eticas.metrics.dxa_inconsistency import Dxa_inconsistency
+from eticas.metrics.da_positive import Da_positive
+from eticas.metrics.da_inconsistency import Da_inconsistency
+from eticas.data.loaders import load_dataset
 import unittest
 
-sensitive_attributes = {'sex' : {'columns' : [
-                                            {
-                                            "name": "sex",
-                                            "underprivileged": [2]
-                                            }
-                                        ],
-                             'type' : 'simple'},
-                        'ethnicity' : {'columns' : [
-                                                                {
-                                                                "name": "ethnicity",
-                                                                "privileged": [1]
-                                                                }
-                                                            ],
-                                                'type' : 'simple'},
-                        'age' : {'columns' : [
-                                            {
-                                            "name": "age",
-                                            "privileged": [3,4]
-                                            }
-                                        ],
-                             'type' : 'simple'},
-                        'sex_ethnicity' : {'groups' : ["sex","ethnicity"],
-                                                        'type' : 'complex'}}
+sensitive_attributes = {'sex': {'columns': [
+    {
+        "name": "sex",
+        "underprivileged": [2]
+    }
+],
+    'type': 'simple'},
+    'ethnicity': {'columns': [
+        {
+            "name": "ethnicity",
+            "privileged": [1]
+        }
+    ],
+    'type': 'simple'},
+    'age': {'columns': [
+        {
+            "name": "age",
+            "privileged": [3, 4]
+        }
+    ],
+    'type': 'simple'},
+    'sex_ethnicity': {'groups': ["sex", "ethnicity"],
+                      'type': 'complex'}}
 
 
-features=["feature_0", "feature_1", "feature_2"]
+features = ["feature_0", "feature_1", "feature_2"]
 
 label_column = 'outcome'
 output_column = 'predicted_outcome'
 positive_output = [1]
 
-from eticas.data.loaders import load_dataset
-
-from eticas.metrics.da_inconsistency import Da_inconsistency
-from eticas.metrics.da_positive import Da_positive
-from eticas.metrics.dxa_inconsistency import Dxa_inconsistency
-from eticas.metrics.da_informative import Da_informative
-from eticas.metrics.d_statisticalparity import D_statisticalparity
-from eticas.metrics.d_parity import D_parity
-from eticas.metrics.performance import Performance
-from eticas.metrics.d_equalodds import D_equalodds
-from eticas.metrics.d_calibrated import D_calibrated
-import logging
 logger = logging.getLogger(__name__)
+
+
 class TestMetrics(unittest.TestCase):
 
     def test_da_inconsistency(self):
-        
+
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
@@ -57,7 +56,7 @@ class TestMetrics(unittest.TestCase):
             raise ValueError("Training dataset shape is 0.")
 
         result = Da_inconsistency().compute(input_data, sensitive_attributes)
-       
+
         expected_result = {
             'age': {
                 'data': 44.8},
@@ -67,7 +66,7 @@ class TestMetrics(unittest.TestCase):
                 'data': 60.0},
             'sex_ethnicity': {
                 'data': 25.0}
-                }
+        }
 
         # --- Check keys ---
         self.assertIn("age", result)
@@ -102,15 +101,16 @@ class TestMetrics(unittest.TestCase):
         )
 
     def test_da_positive(self):
-        
+
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
         if input_data.shape[0] == 0:
             raise ValueError("Training dataset shape is 0.")
 
-        result = Da_positive().compute(input_data, sensitive_attributes,label_column, positive_output)
-       
+        result = Da_positive().compute(input_data, sensitive_attributes,
+                                       label_column, positive_output)
+
         expected_result = {
             'age': {
                 'data': 45.2},
@@ -120,7 +120,7 @@ class TestMetrics(unittest.TestCase):
                 'data': 59.8},
             'sex_ethnicity': {
                 'data': 24.7}
-                }
+        }
 
         # --- Check keys ---
         self.assertIn("age", result)
@@ -155,15 +155,15 @@ class TestMetrics(unittest.TestCase):
         )
 
     def test_dxa_inconsistency(self):
-        
+
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
         if input_data.shape[0] == 0:
             raise ValueError("Training dataset shape is 0.")
 
-        result = Dxa_inconsistency().compute(input_data, sensitive_attributes,features)
-       
+        result = Dxa_inconsistency().compute(input_data, sensitive_attributes, features)
+
         expected_result = {
             'age': {
                 'normalized_risk': 99.28},
@@ -173,7 +173,7 @@ class TestMetrics(unittest.TestCase):
                 'normalized_risk': 99.128},
             'sex_ethnicity': {
                 'normalized_risk': 99.656}
-                }
+        }
 
         # --- Check keys ---
         self.assertIn("age", result)
@@ -206,17 +206,18 @@ class TestMetrics(unittest.TestCase):
             places=7,
             msg="dxa_inconsistency for sex_ethnicity does not match expected value"
         )
-    
+
     def test_da_informative(self):
-        
+
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
         if input_data.shape[0] == 0:
             raise ValueError("Training dataset shape is 0.")
 
-        result = Da_informative().compute(input_data, sensitive_attributes,label_column,features)
-       
+        result = Da_informative().compute(
+            input_data, sensitive_attributes, label_column, features)
+
         expected_result = {
             'age': {
                 'normalized_risk': 98.0},
@@ -226,7 +227,7 @@ class TestMetrics(unittest.TestCase):
                 'normalized_risk': 99.08},
             'sex_ethnicity': {
                 'normalized_risk': 100.0}
-                }
+        }
 
         # --- Check keys ---
         self.assertIn("age", result)
@@ -261,7 +262,7 @@ class TestMetrics(unittest.TestCase):
         )
 
     def test_d_statisticalparity(self):
-        
+
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
@@ -269,8 +270,8 @@ class TestMetrics(unittest.TestCase):
             raise ValueError("Training dataset shape is 0.")
 
         result = D_statisticalparity().compute(input_data, sensitive_attributes,
-                                                    label_column, positive_output)
-       
+                                               label_column, positive_output)
+
         expected_result = {
             'age': {
                 'normalized_risk': 98.0},
@@ -280,7 +281,7 @@ class TestMetrics(unittest.TestCase):
                 'normalized_risk': 100},
             'sex_ethnicity': {
                 'normalized_risk': 98.0}
-                }
+        }
 
         # --- Check keys ---
         self.assertIn("age", result)
@@ -315,7 +316,7 @@ class TestMetrics(unittest.TestCase):
         )
 
     def test_d_parity(self):
-        
+
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
@@ -323,8 +324,8 @@ class TestMetrics(unittest.TestCase):
             raise ValueError("Training dataset shape is 0.")
 
         result = D_parity().compute(input_data, sensitive_attributes,
-                                                    label_column, positive_output)
-       
+                                    label_column, positive_output)
+
         expected_result = {
             'age': {
                 'normalized_risk': 98.0},
@@ -334,7 +335,7 @@ class TestMetrics(unittest.TestCase):
                 'normalized_risk': 99.0},
             'sex_ethnicity': {
                 'normalized_risk': 99.0}
-                }
+        }
 
         # --- Check keys ---
         self.assertIn("age", result)
@@ -369,7 +370,7 @@ class TestMetrics(unittest.TestCase):
         )
 
     def test_performance(self):
-        
+
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
@@ -377,8 +378,8 @@ class TestMetrics(unittest.TestCase):
             raise ValueError("Training dataset shape is 0.")
 
         result = Performance().compute(input_data, sensitive_attributes,
-                                                    label_column, output_column)
-       
+                                       label_column, output_column)
+
         expected_result = {
             'age': {
                 'normalized_risk': 57.588},
@@ -388,7 +389,7 @@ class TestMetrics(unittest.TestCase):
                 'normalized_risk': 59.052},
             'sex_ethnicity': {
                 'normalized_risk': 58.572}
-                }
+        }
 
         # --- Check keys --
         self.assertIn("age", result)
