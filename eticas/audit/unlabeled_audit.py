@@ -15,6 +15,7 @@ from ..metrics.dxa_inconsistency import Dxa_inconsistency
 from ..metrics.da_informative import Da_informative
 from ..metrics.d_statisticalparity import D_statisticalparity
 from ..metrics.d_parity import D_parity
+from ..metrics.da_fairness import Da_fairness
 import logging
 logger = logging.getLogger(__name__)
 
@@ -60,6 +61,10 @@ class UnlabeledAudit(BaseAudit):
                                                                          self.model.sensitive_attributes,
                                                                          output_column,
                                                                          self.model.features)})
+        unlabeled_log.update({'da_fairness': Da_fairness().compute(input_data,
+                                                                   self.model.sensitive_attributes,
+                                                                   output_column,
+                                                                   self.model.features)})
         unlabeled_log.update({'d_statisticalparity': D_statisticalparity().compute(input_data,
                                                                                    self.model.sensitive_attributes,
                                                                                    output_column,

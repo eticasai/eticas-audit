@@ -73,6 +73,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
         train_columns_1 = set(cols_prod) & set(input_features)
 
         train_columns = set(train_columns_0) & set(train_columns_1)
+        train_columns = list(train_columns)
 
         if len(train_columns) == 0:
             raise ValueError("Input features are not in dataset.")
@@ -104,6 +105,8 @@ class Tdx_inconsistency(BaseFairnessMetric):
                             'bias_level': self.get_bias_level(normalized_risk)
                             }})
         for item in json_groups.items():
+            data_dev = input_data_dev
+            data_prod = input_data_prod
             group = item[0]
             sensitive_columns = []
 
@@ -112,26 +115,30 @@ class Tdx_inconsistency(BaseFairnessMetric):
 
                     filters = item[1]['columns']
                     mask_privileged, mask_underprivileged = get_mask(input_data_dev, filters)
+                    data_dev[item[1]['columns'][0]['name']] = mask_underprivileged.astype(int)
                     mask_privileged_2, mask_underprivileged_2 = get_mask(input_data_prod, filters)
+                    data_prod[item[1]['columns'][0]['name']] = mask_underprivileged.astype(int)
                     sensitive_columns.append(item[1]['columns'][0]['name'])
 
                 else:
                     filters = np.concat([json_groups[c]['columns'] for c in item[1]['groups']]).tolist()
                     for filter in filters:
                         mask_privileged, mask_underprivileged = get_mask(input_data_dev, [filter])
+                        data_dev[filter['name']] = mask_underprivileged.astype(int)
                         mask_privileged_2, mask_underprivileged_2 = get_mask(input_data_prod, [filter])
+                        data_prod[filter['name']] = mask_underprivileged.astype(int)
                         sensitive_columns.append(filter['name'])
 
                 feat_columns = train_columns + sensitive_columns
 
-                data_dev = input_data_dev[mask_underprivileged][feat_columns + [column_output]]
-                data_prod = input_data_prod[mask_underprivileged_2][feat_columns + [column_output]]
+                data_dev = data_dev[mask_underprivileged][feat_columns + [column_output]]
+                data_prod = data_prod[mask_underprivileged_2][feat_columns + [column_output]]
                 data = pd.concat([data_dev, data_prod])
                 # Split data (70% train, 30% test) based on the sensitive attribute
                 train_data, test_data = train_test_split(data, test_size=0.3,
                                                          stratify=data[column_output],
-                                                         srandom_state=123)
-                logistic_base = LogisticRegression(random_statsse=123)
+                                                         random_state=123)
+                logistic_base = LogisticRegression(random_state=123)
                 logistic_base.fit(train_data[feat_columns], train_data[column_output])
                 predictions_base = logistic_base.predict(test_data[feat_columns])
                 accuracy_base = np.round(accuracy_score(test_data[column_output], predictions_base), 4).item()
