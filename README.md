@@ -11,7 +11,7 @@ An open-source Python library designed for developers to calculate fairness metr
 
 AI System can inherit biases from data or amplify them during decision-making processes. This library helps ensure transparency and accountability by providing actionable insights to improve fairness in AI systems.
 
-## Key Features
+## 🚀 Key Features
 
 This framework is designed to audit AI systems comprehensively across all stages of their lifecycle. At its core, it focuses on comparing privileged and underprivileged groups, ensuring a fair evaluation of model behavior. 
 
@@ -32,13 +32,18 @@ The stages considered are the following:
 - **Performance Analysis**: Metrics to assess model performance, accuracy, and recall.
 - **Model Drift Monitoring**: Detect and measure changes in data distributions and model behavior over time.
 
-## **ITACA: Monitoring & Auditing Platform** ⚖️
+## 🌟 <span style="background-color:yellow">ITACA: Monitoring & Auditing Platform</span> 🌟
+Desbloquea el verdadero potencial de tus modelos con **ITACA**.
 
-If you want to unlock the full potential that Eticas offers, you can switch to our subscription model. ITACA is a SaaS platform that enables monitoring of your model’s stages. You can easily integrate it into your processes through our library and API.
+
+
+🟡 Unlock the full potential of Eticas by upgrading to our subscription model! With ITACA, our powerful SaaS platform, you can monitor every stage of your model’s lifecycle seamlessly. Easily integrate ITACA into your workflows with our library and API—start optimizing your models today!
 
 - **Audit Subscription** 🔎: Stay compliant with major regulations and laws on bias and fairness.
 
-Learn more about our platform at [ITACA – Monitoring & Auditing Platform](https://eticas.ai/itaca/).  
+Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform](https://eticas.ai/itaca/).  
+
+
 
 | <img src="docs/itaca_dash.jpg" width="400" /> | <img src="docs/itaca_overview.jpg" width="400" /> 
 
@@ -49,7 +54,7 @@ Learn more about our platform at [ITACA – Monitoring & Auditing Platform](http
 
 
 
-## Metrics
+## ⚖️ Metrics
 
 | **Group**                  | **Metric**             | **Label needed?** | **Description**                                                                                                                                         |
 |----------------------------|------------------------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
