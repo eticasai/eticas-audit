@@ -1,7 +1,7 @@
 # Eticas: Bias & Audit Framework
 
 <p align="center">
-  <img src="docs/logo.png" width="150">
+  <img src="docs/eticas.png" width="150">
 </p>
 
 
@@ -12,7 +12,6 @@ An open-source Python library designed for developers to calculate fairness metr
 AI System can inherit biases from data or amplify them during decision-making processes. This library helps ensure transparency and accountability by providing actionable insights to improve fairness in AI systems.
 
 ## Key Features
-
 
 This framework is designed to audit AI systems comprehensively across all stages of their lifecycle. At its core, it focuses on comparing privileged and underprivileged groups, ensuring a fair evaluation of model behavior. 
 
