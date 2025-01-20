@@ -33,11 +33,9 @@ The stages considered are the following:
 - **Model Drift Monitoring**: Detect and measure changes in data distributions and model behavior over time.
 
 ## 🌟 <span style="background-color:yellow">ITACA: Monitoring & Auditing Platform</span> 🌟
-Desbloquea el verdadero potencial de tus modelos con **ITACA**.
 
 
-
-🟡 Unlock the full potential of Eticas by upgrading to our subscription model! With ITACA, our powerful SaaS platform, you can monitor every stage of your model’s lifecycle seamlessly. Easily integrate ITACA into your workflows with our library and API—start optimizing your models today!
+🟡 Unlock the full potential of Eticas by upgrading to our subscription model! With **ITACA**, our powerful SaaS platform, you can monitor every stage of your model’s lifecycle seamlessly. Easily integrate ITACA into your workflows with our library and API—start optimizing your models today!
 
 - **Audit Subscription** 🔎: Stay compliant with major regulations and laws on bias and fairness.
 
