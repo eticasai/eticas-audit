@@ -13,6 +13,7 @@ AI System can inherit biases from data or amplify them during decision-making pr
 
 ## Key Features
 
+
 This framework is designed to audit AI systems comprehensively across all stages of their lifecycle. At its core, it focuses on comparing privileged and underprivileged groups, ensuring a fair evaluation of model behavior. 
 
 With a wide range of metrics, this framework is a game-changer in bias monitoring. It offers a deep perspective on fairness, allowing for comprehensive reporting even without relying on true labels. The only restriction for measuring bias in production lies in performance metrics, as they are directly tied to true labels.
