@@ -182,6 +182,10 @@ model.run_labeled_audit(dataset_path ='files/example_training_binary_2.csv',
                         output_column = 'predicted_outcome',
                         positive_output = [1])
 
+#json labeled results
+model.labeled_results
+
+
 ```
 
 #### Audit Production
@@ -197,6 +201,9 @@ You can also upload a label or output column with scoring, ranking, or recommend
 model.run_production_audit(dataset_path ='files/example_operational_binary_2.csv',
                            output_column = 'predicted_outcome',
                            positive_output = [1])
+
+#json production results
+model.production_results
 ```
 
 #### Audit Impacted
@@ -213,6 +220,9 @@ You can also upload a label or output column with scoring, ranking, or recommend
 model.run_impacted_audit(dataset_path ='files/example_impact_binary_2.csv', 
                          output_column = 'recorded_outcome',
                          positive_output = [1])
+
+#json impacted results
+model.impacted_results
 ```
 
 #### Audit Drift
@@ -224,6 +234,9 @@ model.run_drift_audit(dataset_path_dev = 'files/example_training_binary_2.csv',
                       dataset_path_prod = 'files/example_operational_binary_2.csv', 
                       output_column_prod = 'predicted_outcome',
                       positive_output_prod = [1])
+
+#json drift results
+model.drift_results
 ```
 
 ### Explore Results
