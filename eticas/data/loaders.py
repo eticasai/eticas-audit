@@ -44,25 +44,19 @@ def load_dataset(file_path: str) -> pd.DataFrame:
     extension = extension.lower()
 
     # 3. Load the data based on the extension
-    try:
-        if extension == '.pkl':
-            df = pd.read_pickle(file_path)
-            logger.info(f"Dataset successfully loaded from {file_path} (Pickle).")
-        elif extension == '.parquet':
-            df = pd.read_parquet(file_path)
-            logger.info(f"Dataset successfully loaded from {file_path} (Parquet).")
-        elif extension == '.csv':
-            df = pd.read_csv(file_path)
-            logger.info(f"Dataset successfully loaded from {file_path} (CSV).")
-        else:
-            error_msg = (f"Extension '{extension}' is not supported. "
-                         f"Only .pkl, .parquet, or .csv files are allowed.")
-            logger.error(error_msg)
-            raise ValueError(error_msg)
-
-    except Exception as e:
-        # Log the error and re-raise it for further handling
-        logger.error(f"An error occurred while loading the file '{file_path}': {e}")
-        raise e
+    if (extension == '.pkl') | (extension == '.pickle'):
+        df = pd.read_pickle(file_path)
+        logger.info(f"Dataset successfully loaded from {file_path} (Pickle).")
+    elif extension == '.parquet':
+        df = pd.read_parquet(file_path)
+        logger.info(f"Dataset successfully loaded from {file_path} (Parquet).")
+    elif extension == '.csv':
+        df = pd.read_csv(file_path)
+        logger.info(f"Dataset successfully loaded from {file_path} (CSV).")
+    else:
+        error_msg = (f"Extension '{extension}' is not supported. "
+                     f"Only .pkl, .parquet, or .csv files are allowed.")
+        logger.error(error_msg)
+        raise ValueError(error_msg)
 
     return df

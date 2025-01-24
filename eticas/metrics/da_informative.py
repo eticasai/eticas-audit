@@ -117,6 +117,7 @@ class Da_informative(BaseFairnessMetric):
         Normalize the value between 0 - 100
         '''
         accuracy = value - 1
+        normalized = 0
         if accuracy <= 0:
             normalized = 100
         elif accuracy < 0.1:
@@ -125,6 +126,4 @@ class Da_informative(BaseFairnessMetric):
             normalized = 80 - ((accuracy - 0.1) / 0.1) * 20
         elif accuracy >= 0.2:
             normalized = 60 - ((accuracy - 0.2) / 0.8) * 60
-        else:
-            normalized = None
         return normalized

@@ -68,8 +68,9 @@ class LabeledAudit(BaseAudit):
                                                                        self.model.features)})
         labeled_log.update({'da_fairness': Da_fairness().compute(input_data,
                                                                  self.model.sensitive_attributes,
+                                                                 self.model.features,
                                                                  label_column,
-                                                                 self.model.features)})
+                                                                 positive_output)})
         labeled_log.update({'d_statisticalparity': D_statisticalparity().compute(input_data,
                                                                                  self.model.sensitive_attributes,
                                                                                  label_column,
@@ -81,6 +82,7 @@ class LabeledAudit(BaseAudit):
         labeled_log.update({'poor_performance': Performance().compute(input_data,
                                                                       self.model.sensitive_attributes,
                                                                       label_column,
+                                                                      positive_output,
                                                                       output_column)})
         labeled_log.update({'d_equalodds': D_equalodds().compute(input_data,
                                                                  self.model.sensitive_attributes,

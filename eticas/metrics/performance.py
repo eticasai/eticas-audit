@@ -15,6 +15,7 @@ class Performance(BaseFairnessMetric):
                 input_data,
                 sensitive_attrs=None,
                 label_column: str = None,
+                positive_outcome=[1],
                 output_column: str = None):
         """
         Parameters
@@ -31,6 +32,7 @@ class Performance(BaseFairnessMetric):
             input_data=input_data,
             sensitive_attrs=sensitive_attrs,
             label_column=label_column,
+            positive_outcome=positive_outcome,
             output_column=output_column
         )
         np.random.seed(123)
@@ -46,10 +48,14 @@ class Performance(BaseFairnessMetric):
         json_groups = sensitive_attrs
 
         result_list = {}
-        TP = ((input_data[label_column] == 1) & (input_data[output_column] == 1)).sum().item()  # True Positives
-        FP = ((input_data[label_column] == 0) & (input_data[output_column] == 1)).sum().item()  # False Positives
-        TN = ((input_data[label_column] == 0) & (input_data[output_column] == 0)).sum().item()  # True Negatives
-        FN = ((input_data[label_column] == 1) & (input_data[output_column] == 0)).sum().item()  # False Negatives
+        TP = ((input_data[label_column].isin(positive_outcome)) &
+              (input_data[output_column].isin(positive_outcome))).sum().item()  # True Positives
+        FP = ((~input_data[label_column].isin(positive_outcome)) &
+              (input_data[output_column].isin(positive_outcome))).sum().item()  # False Positives
+        TN = ((~input_data[label_column].isin(positive_outcome)) &
+              (~input_data[output_column].isin(positive_outcome))).sum().item()  # True Negatives
+        FN = ((input_data[label_column].isin(positive_outcome)) &
+              (~input_data[output_column].isin(positive_outcome))).sum().item()  # False Negatives
         accuracy = np.round((TP + TN) / (TP + TN + FP + FN), 4).item()
         precision = np.round(TP / (TP + FP), 4).item() if (TP + FP) > 0 else 0
         recall = np.round(TP / (TP + FN), 4).item() if (TP + FN) > 0 else 0
@@ -82,17 +88,20 @@ class Performance(BaseFairnessMetric):
                 mask_privileged, mask_underprivileged = get_mask(input_data, filters)
 
                 data = input_data[mask_underprivileged].copy()
-                TP = ((data[label_column] == 1) & (data[output_column] == 1)).sum()  # True Positives
-                FP = ((data[label_column] == 0) & (data[output_column] == 1)).sum()  # False Positives
-                TN = ((data[label_column] == 0) & (data[output_column] == 0)).sum()  # True Negatives
-                FN = ((data[label_column] == 1) & (data[output_column] == 0)).sum()  # False Negatives
+                TP = ((data[label_column].isin(positive_outcome)) &
+                      (data[output_column].isin(positive_outcome))).sum()  # True Positives
+                FP = ((~data[label_column].isin(positive_outcome)) &
+                      (data[output_column].isin(positive_outcome))).sum()  # False Positives
+                TN = ((~data[label_column].isin(positive_outcome)) &
+                      (~data[output_column].isin(positive_outcome))).sum()  # True Negatives
+                FN = ((data[label_column].isin(positive_outcome)) &
+                      (~data[output_column].isin(positive_outcome))).sum()  # False Negatives
                 accuracy = np.round((TP + TN) / (TP + TN + FP + FN), 4).item()
                 precision = np.round(TP / (TP + FP), 4).item() if (TP + FP) > 0 else 0
                 recall = np.round(TP / (TP + FN), 4).item() if (TP + FN) > 0 else 0
+                f1 = 0
                 if (precision + recall) > 0:
                     f1 = np.round(2 * (precision * recall) / (precision + recall), 4).item()
-                else:
-                    f1 = 0
 
                 largest_class_frequency = np.round(data['outcome'].value_counts().max() / len(data), 4).item()
                 poor_performance = np.round(accuracy / largest_class_frequency, 4).item()

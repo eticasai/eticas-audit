@@ -3,7 +3,7 @@ from setuptools import setup
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 INSTALL_REQUIRES = [
-      'numpy==2.1.2', 'pandas==2.2.3', 'scikit-learn==1.5.2'
+      'numpy==2.1.2', 'pandas==2.2.3', 'scikit-learn==1.5.2', 'pyarrow==19.0.0'
       ]
 
 setup(

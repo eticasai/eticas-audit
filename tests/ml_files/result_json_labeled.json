@@ -1,0 +1,481 @@
+{
+    "da_inconsistency": {
+        "sex": {
+            "data": 60.0
+        },
+        "ethnicity": {
+            "data": 40.0
+        },
+        "age": {
+            "data": 44.8
+        },
+        "error": {
+            "data": null,
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "data": 25.0
+        }
+    },
+    "da_positive": {
+        "sex": {
+            "data": 59.8
+        },
+        "ethnicity": {
+            "data": 39.8
+        },
+        "age": {
+            "data": 45.2
+        },
+        "error": {
+            "data": null,
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "data": 24.7
+        }
+    },
+    "dxa_inconsistency": {
+        "sex": {
+            "correlation": 0.0109,
+            "proportion": 0.6,
+            "rate": 0.0109,
+            "normalized_risk": 99.128,
+            "bias_level": "Low/no bias"
+        },
+        "ethnicity": {
+            "correlation": 0.0045,
+            "proportion": 0.6,
+            "rate": 0.0045,
+            "normalized_risk": 99.64,
+            "bias_level": "Low/no bias"
+        },
+        "age": {
+            "correlation": 0.009,
+            "proportion": 0.5522,
+            "rate": 0.009,
+            "normalized_risk": 99.28,
+            "bias_level": "Low/no bias"
+        },
+        "error": {
+            "correlation": 0,
+            "proportion": 0,
+            "rate": 0,
+            "normalized_risk": null,
+            "bias_level": "High bias",
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "correlation": 0.0149,
+            "proportion": 0.75,
+            "rate": 0.0149,
+            "normalized_risk": 98.808,
+            "bias_level": "Low/no bias"
+        }
+    },
+    "da_informative": {
+        "sex": {
+            "accuracy_base": 0.507,
+            "accuracy_group": 0.5087,
+            "accuracy": 1.003353057199211,
+            "normalized_risk": 99.3294,
+            "bias_level": "Low/no bias"
+        },
+        "ethnicity": {
+            "accuracy_base": 0.507,
+            "accuracy_group": 0.4973,
+            "accuracy": 0.9808678500986193,
+            "normalized_risk": 100,
+            "bias_level": "Low/no bias"
+        },
+        "age": {
+            "accuracy_base": 0.507,
+            "accuracy_group": 0.506,
+            "accuracy": 0.9980276134122288,
+            "normalized_risk": 100,
+            "bias_level": "Low/no bias"
+        },
+        "error": {
+            "accuracy_base": 0,
+            "accuracy_group": 0,
+            "accuracy": 0,
+            "normalized_risk": null,
+            "bias_level": "High bias",
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "accuracy_base": 0.507,
+            "accuracy_group": 0.5007,
+            "accuracy": 0.9875739644970415,
+            "normalized_risk": 100,
+            "bias_level": "Low/no bias"
+        }
+    },
+    "da_fairness": {
+        "sex": {
+            "equality": 0.0,
+            "equity": 0.01,
+            "fairness": 0.01,
+            "equality_norm": 100.0,
+            "equity_norm": 99.0,
+            "normalized_risk": 99.0,
+            "bias_level": "Low/no bias"
+        },
+        "ethnicity": {
+            "equality": 0.0,
+            "equity": 0.0,
+            "fairness": 0.0,
+            "equality_norm": 100.0,
+            "equity_norm": 100.0,
+            "normalized_risk": 100.0,
+            "bias_level": "Low/no bias"
+        },
+        "age": {
+            "equality": 0.01,
+            "equity": 0.0,
+            "fairness": 0.01,
+            "equality_norm": 99.0,
+            "equity_norm": 100.0,
+            "normalized_risk": 99.0,
+            "bias_level": "Low/no bias"
+        },
+        "error": {
+            "equality": 0,
+            "equity": 0,
+            "fairness": 0,
+            "equality_norm": 0,
+            "equity_norm": 0,
+            "normalized_risk": null,
+            "bias_level": "High bias",
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "equality": 0.01,
+            "equity": 0.0,
+            "fairness": 0.01,
+            "equality_norm": 99.0,
+            "equity_norm": 100.0,
+            "normalized_risk": 99.0,
+            "bias_level": "Low/no bias"
+        }
+    },
+    "d_statisticalparity": {
+        "sex": {
+            "SPD": -0.0,
+            "%_positive": 50.1,
+            "normalized_risk": 100.0,
+            "bias_level": "Low/no bias"
+        },
+        "ethnicity": {
+            "SPD": -0.0,
+            "%_positive": 50.0,
+            "normalized_risk": 100.0,
+            "bias_level": "Low/no bias"
+        },
+        "age": {
+            "SPD": 0.01,
+            "%_positive": 50.7,
+            "normalized_risk": 98.0,
+            "bias_level": "Low/no bias"
+        },
+        "error": {
+            "SPD": 0,
+            "%_positive": 0,
+            "normalized_risk": null,
+            "bias_level": "High bias",
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "SPD": -0.01,
+            "%_positive": 49.7,
+            "normalized_risk": 98.0,
+            "bias_level": "Low/no bias"
+        }
+    },
+    "d_parity": {
+        "sex": {
+            "DI": 0.99,
+            "%_positive": 50.1,
+            "normalized_risk": 99.0,
+            "bias_level": "Low/no bias"
+        },
+        "ethnicity": {
+            "DI": 0.99,
+            "%_positive": 50.0,
+            "normalized_risk": 99.0,
+            "bias_level": "Low/no bias"
+        },
+        "age": {
+            "DI": 1.02,
+            "%_positive": 50.7,
+            "normalized_risk": 98.0,
+            "bias_level": "Low/no bias"
+        },
+        "error": {
+            "DI": 0,
+            "%_positive": 0,
+            "normalized_risk": null,
+            "bias_level": "High bias",
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "DI": 0.99,
+            "%_positive": 49.7,
+            "normalized_risk": 99.0,
+            "bias_level": "Low/no bias"
+        }
+    },
+    "poor_performance": {
+        "overall": {
+            "accuracy": 49.11,
+            "precision": 49.37,
+            "recall": 50.23,
+            "f1": 49.8,
+            "lcf": 0.5025,
+            "TP": 2524,
+            "FP": 2588,
+            "TN": 2387,
+            "FN": 2501,
+            "poor_performance": 0.9773,
+            "normalized_risk": 58.638,
+            "bias_level": "High bias"
+        },
+        "sex": {
+            "accuracy": 49.33,
+            "precision": 49.47,
+            "recall": 50.95,
+            "f1": 50.2,
+            "lcf": 0.5012,
+            "TP": 1532,
+            "FP": 1565,
+            "TN": 1428,
+            "FN": 1475,
+            "poor_performance": 0.9842,
+            "normalized_risk": 59.052,
+            "bias_level": "High bias"
+        },
+        "ethnicity": {
+            "accuracy": 49.65,
+            "precision": 49.66,
+            "recall": 50.65,
+            "f1": 50.15,
+            "lcf": 0.5,
+            "TP": 1013,
+            "FP": 1027,
+            "TN": 973,
+            "FN": 987,
+            "poor_performance": 0.993,
+            "normalized_risk": 59.58,
+            "bias_level": "High bias"
+        },
+        "age": {
+            "accuracy": 48.7,
+            "precision": 49.45,
+            "recall": 49.34,
+            "f1": 49.39,
+            "lcf": 0.5074,
+            "TP": 1121,
+            "FP": 1146,
+            "TN": 1060,
+            "FN": 1151,
+            "poor_performance": 0.9598,
+            "normalized_risk": 57.588,
+            "bias_level": "High bias"
+        },
+        "error": {
+            "accuracy": 0,
+            "precision": 0,
+            "recall": 0,
+            "f1": 0,
+            "lcf": 0,
+            "TP": 1121,
+            "FP": 1146,
+            "TN": 1060,
+            "FN": 1151,
+            "poor_performance": 0,
+            "normalized_risk": null,
+            "bias_level": "High bias",
+            "error": "group no present in data."
+        },
+        "sex_ethnicity": {
+            "accuracy": 49.12,
+            "precision": 48.82,
+            "recall": 50.16,
+            "f1": 49.48,
+            "lcf": 0.5032,
+            "TP": 623,
+            "FP": 653,
+            "TN": 605,
+            "FN": 619,
+            "poor_performance": 0.9762,
+            "normalized_risk": 58.572,
+            "bias_level": "High bias"
+        }
+    },
+    "d_equalodds": {
+        "sex": {
+            "true_positive_rate": {
+                "underprivileged": 0.5095,
+                "privileged": 0.4916,
+                "ratio_true": 1.0364,
+                "normalized_risk": 96.36,
+                "bias_level": "Low/no bias"
+            },
+            "false_positive_rate": {
+                "underprivileged": 0.5229,
+                "privileged": 0.5161,
+                "ratio_false": 1.0131,
+                "normalized_risk": 98.69,
+                "bias_level": "Low/no bias"
+            }
+        },
+        "ethnicity": {
+            "true_positive_rate": {
+                "underprivileged": 0.5065,
+                "privileged": 0.4995,
+                "ratio_true": 1.014,
+                "normalized_risk": 98.6,
+                "bias_level": "Low/no bias"
+            },
+            "false_positive_rate": {
+                "underprivileged": 0.5135,
+                "privileged": 0.5247,
+                "ratio_false": 0.9786,
+                "normalized_risk": 97.86,
+                "bias_level": "Low/no bias"
+            }
+        },
+        "age": {
+            "true_positive_rate": {
+                "underprivileged": 0.4934,
+                "privileged": 0.5096,
+                "ratio_true": 0.9682,
+                "normalized_risk": 96.82,
+                "bias_level": "Low/no bias"
+            },
+            "false_positive_rate": {
+                "underprivileged": 0.5195,
+                "privileged": 0.5208,
+                "ratio_false": 0.9976,
+                "normalized_risk": 99.76,
+                "bias_level": "Low/no bias"
+            }
+        },
+        "error": {
+            "error": "group no present in data.",
+            "true_positive_rate": {
+                "underprivileged": 0,
+                "privileged": 0,
+                "ratio_true": 0,
+                "normalized_risk": null,
+                "bias_level": "High bias"
+            },
+            "false_positive_rate": {
+                "underprivileged": 0,
+                "privileged": 0,
+                "ratio_false": 0,
+                "normalized_risk": null,
+                "bias_level": "High bias"
+            }
+        },
+        "sex_ethnicity": {
+            "true_positive_rate": {
+                "underprivileged": 0.5016,
+                "privileged": 0.4778,
+                "ratio_true": 1.0499,
+                "normalized_risk": 95.01,
+                "bias_level": "Low/no bias"
+            },
+            "false_positive_rate": {
+                "underprivileged": 0.5191,
+                "privileged": 0.5234,
+                "ratio_false": 0.9918,
+                "normalized_risk": 99.18,
+                "bias_level": "Low/no bias"
+            }
+        }
+    },
+    "d_calibrated": {
+        "sex": {
+            "true_calibrated": {
+                "underprivileged": 0.5095,
+                "privileged": 0.4916,
+                "ratio_true": 1.0364,
+                "normalized_risk": 96.36,
+                "bias_level": "Low/no bias"
+            },
+            "false_calibrated": {
+                "underprivileged": 0.5229,
+                "privileged": 0.5161,
+                "ratio_false": 1.0131,
+                "normalized_risk": 98.69,
+                "bias_level": "Low/no bias"
+            }
+        },
+        "ethnicity": {
+            "true_calibrated": {
+                "underprivileged": 0.5065,
+                "privileged": 0.4995,
+                "ratio_true": 1.014,
+                "normalized_risk": 98.6,
+                "bias_level": "Low/no bias"
+            },
+            "false_calibrated": {
+                "underprivileged": 0.5135,
+                "privileged": 0.5247,
+                "ratio_false": 0.9786,
+                "normalized_risk": 97.86,
+                "bias_level": "Low/no bias"
+            }
+        },
+        "age": {
+            "true_calibrated": {
+                "underprivileged": 0.4934,
+                "privileged": 0.5096,
+                "ratio_true": 0.9682,
+                "normalized_risk": 96.82,
+                "bias_level": "Low/no bias"
+            },
+            "false_calibrated": {
+                "underprivileged": 0.5195,
+                "privileged": 0.5208,
+                "ratio_false": 0.9976,
+                "normalized_risk": 99.76,
+                "bias_level": "Low/no bias"
+            }
+        },
+        "error": {
+            "error": "group no present in data.",
+            "true_calibrated": {
+                "underprivileged": 0,
+                "privileged": 0,
+                "ratio_true": 0,
+                "normalized_risk": null,
+                "bias_level": "High bias"
+            },
+            "false_calibrated": {
+                "underprivileged": 0,
+                "privileged": 0,
+                "ratio_false": 0,
+                "normalized_risk": null,
+                "bias_level": "High bias"
+            }
+        },
+        "sex_ethnicity": {
+            "true_calibrated": {
+                "underprivileged": 0.5016,
+                "privileged": 0.4778,
+                "ratio_true": 1.0499,
+                "normalized_risk": 95.01,
+                "bias_level": "Low/no bias"
+            },
+            "false_calibrated": {
+                "underprivileged": 0.5191,
+                "privileged": 0.5234,
+                "ratio_false": 0.9918,
+                "normalized_risk": 99.18,
+                "bias_level": "Low/no bias"
+            }
+        }
+    }
+}

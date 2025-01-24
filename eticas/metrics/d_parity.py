@@ -37,7 +37,6 @@ class D_parity(BaseFairnessMetric):
         )
 
         if not input_data[label_column].isin([0, 1]).all():
-            # Convert to binary
             input_data[label_column] = binarize_predictions(input_data[label_column].values)
         json_groups = sensitive_attrs
         result_list = {}
@@ -80,13 +79,10 @@ class D_parity(BaseFairnessMetric):
 
     def normalize_value(self, value):
         x = value
+        normalized = 0
         if 0.8 < x < 1.2:
-            if x == 0.8:
-                normalized = 80
-            elif x == 1:
+            if x == 1:
                 normalized = 100
-            elif x == 1.2:
-                normalized = 80
             elif x < 1:
                 normalized = (x - 0.8) * (100 - 80) / (1 - 0.8) + 80
             else:
@@ -99,6 +95,4 @@ class D_parity(BaseFairnessMetric):
             normalized = (x - 0.5) * (80 - 60) / (0.8 - 0.5) + 60
         elif x <= 0.5:
             normalized = x * (60 - 0) / 0.5
-        else:
-            normalized = 0
         return normalized

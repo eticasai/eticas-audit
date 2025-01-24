@@ -1,0 +1,10 @@
+[run]
+omit =
+    */tests/*
+    */test_*.py  # Excluye los archivos de prueba con prefijo 'test_'
+
+[report]
+exclude_lines =
+    # Excluye las líneas de cobertura comunes, como los guardias principales
+    if __name__ == .__main__.:
+    pragma: no cover

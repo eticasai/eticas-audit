@@ -3,7 +3,7 @@ from .base_metric import BaseFairnessMetric
 import math
 import logging
 import pandas as pd
-from ..utils.helpers import get_mask
+from ..utils.helpers import get_mask, binarize_predictions
 logger = logging.getLogger(__name__)
 
 
@@ -18,8 +18,9 @@ class Da_fairness(BaseFairnessMetric):
     def compute(self,
                 input_data,
                 sensitive_attrs=None,
+                input_features=None,
                 label_column=None,
-                input_features=None):
+                positive_output: list = [1]):
         """
         Parameters
         ----------
@@ -34,11 +35,16 @@ class Da_fairness(BaseFairnessMetric):
         self.validate_parameters(
             input_data=input_data,
             sensitive_attrs=sensitive_attrs,
-            label_column=label_column,
             input_features=input_features,
+            label_column=label_column,
+            positive_output=positive_output,
         )
 
         input_data = input_data.dropna()
+
+        if not input_data[label_column].isin([0, 1]).all():
+            # Convert to binary
+            input_data[label_column] = binarize_predictions(input_data[label_column].values)
 
         train_columns = [c for c in input_data.columns if c in input_features]
 
@@ -171,20 +177,3 @@ class Da_fairness(BaseFairnessMetric):
                                             'error': 'group no present in data.'}})
         logger.info(f"Completed: '{self.__str__()}'")
         return result_list
-
-    def normalize_value(self, value):
-        '''
-        Normalize the value between 0 - 100
-        '''
-        accuracy = value - 1
-        if accuracy <= 0:
-            normalized = 100
-        elif accuracy < 0.1:
-            normalized = 100 - (abs(accuracy) / 0.1) * 20
-        elif 0.1 <= accuracy < 0.2:
-            normalized = 80 - ((accuracy - 0.1) / 0.1) * 20
-        elif accuracy >= 0.2:
-            normalized = 60 - ((accuracy - 0.2) / 0.8) * 60
-        else:
-            normalized = None
-        return normalized

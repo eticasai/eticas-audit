@@ -63,8 +63,9 @@ class UnlabeledAudit(BaseAudit):
                                                                          self.model.features)})
         unlabeled_log.update({'da_fairness': Da_fairness().compute(input_data,
                                                                    self.model.sensitive_attributes,
+                                                                   self.model.features,
                                                                    output_column,
-                                                                   self.model.features)})
+                                                                   positive_output)})
         unlabeled_log.update({'d_statisticalparity': D_statisticalparity().compute(input_data,
                                                                                    self.model.sensitive_attributes,
                                                                                    output_column,

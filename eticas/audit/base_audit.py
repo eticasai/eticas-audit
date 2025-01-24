@@ -39,7 +39,7 @@ class BaseAudit(ABC):
         -------
         :return: dict. The result of the training audit.
         """
-        pass
+        raise NotImplementedError("Not implemented.")
 
     def __str__(self):
-        return f"{self.__class__.__name__}(model={self.model.model_name})"
+        return self.__class__.__name__

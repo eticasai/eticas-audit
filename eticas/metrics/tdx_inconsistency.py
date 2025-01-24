@@ -74,36 +74,45 @@ class Tdx_inconsistency(BaseFairnessMetric):
 
         train_columns = set(train_columns_0) & set(train_columns_1)
         train_columns = list(train_columns)
-
-        if len(train_columns) == 0:
-            raise ValueError("Input features are not in dataset.")
-
         result_list = {}
 
         feat_columns = train_columns + sensitive_columns
         if len(feat_columns) == 0:
             raise ValueError('length 0 of train and sensitive features is 0.')
-        data_dev = input_data_dev[feat_columns + [column_output]]
-        data_prod = input_data_prod[feat_columns + [column_output]]
-        data = pd.concat([data_dev, data_prod])
-        # Split data (70% train, 30% test) based on the sensitive attribute
-        train_data, test_data = train_test_split(data, test_size=0.3,
-                                                 stratify=data[column_output],
-                                                 random_state=123)
-        logistic_base = LogisticRegression(random_state=123)
-        logistic_base.fit(train_data[feat_columns], train_data[column_output])
-        predictions_base = logistic_base.predict(test_data[feat_columns])
-        accuracy_base = np.round(accuracy_score(test_data[column_output],
-                                                predictions_base), 4).item()
-        rate = np.round(accuracy_base / proportion_data, 4).item()
-        normalized_risk = np.round(self.normalize_value(rate), 4).item()
-        result_list.update({'overall': {
-                            'accuracy': np.round(accuracy_base, 4).item(),
-                            'proportion': np.round(proportion_data, 4).item(),
-                            'rate': rate,
-                            'normalized_risk': normalized_risk,
-                            'bias_level': self.get_bias_level(normalized_risk)
-                            }})
+        try:
+            group = 'overall'
+            data_dev = input_data_dev[feat_columns + [column_output]]
+            data_prod = input_data_prod[feat_columns + [column_output]]
+            data = pd.concat([data_dev, data_prod])
+            # Split data (70% train, 30% test) based on the sensitive attribute
+            train_data, test_data = train_test_split(data, test_size=0.3,
+                                                     stratify=data[column_output],
+                                                     random_state=123)
+            logistic_base = LogisticRegression(random_state=123)
+            logistic_base.fit(train_data[feat_columns], train_data[column_output])
+            predictions_base = logistic_base.predict(test_data[feat_columns])
+            accuracy_base = np.round(accuracy_score(test_data[column_output],
+                                                    predictions_base), 4).item()
+            rate = np.round(accuracy_base / proportion_data, 4).item()
+            normalized_risk = np.round(self.normalize_value(rate), 4).item()
+            result_list.update({group: {
+                                'accuracy': np.round(accuracy_base, 4).item(),
+                                'proportion': np.round(proportion_data, 4).item(),
+                                'rate': rate,
+                                'normalized_risk': normalized_risk,
+                                'bias_level': self.get_bias_level(normalized_risk)
+                                }})
+        except ValueError:
+            # Captura cualquier ValueError lanzado por get_benchmarking
+            logger.error(f"Group no present in data: '{group}'")
+            result_list.update({group: {
+                                        'accuracy': 0,
+                                        'proportion': 0,
+                                        'rate': 0,
+                                        'normalized_risk': 100,
+                                        'bias_level': self.get_bias_level(100),
+                                        'error': 'only one value target.'
+                                        }})
         for item in json_groups.items():
             data_dev = input_data_dev
             data_prod = input_data_prod
@@ -128,7 +137,6 @@ class Tdx_inconsistency(BaseFairnessMetric):
                         mask_privileged_2, mask_underprivileged_2 = get_mask(input_data_prod, [filter])
                         data_prod[filter['name']] = mask_underprivileged.astype(int)
                         sensitive_columns.append(filter['name'])
-
                 feat_columns = train_columns + sensitive_columns
 
                 data_dev = data_dev[mask_underprivileged][feat_columns + [column_output]]
@@ -162,6 +170,17 @@ class Tdx_inconsistency(BaseFairnessMetric):
                                             'bias_level': self.get_bias_level(0),
                                             'error': 'group no present in data.'
                                             }})
+            except ValueError:
+                # Captura cualquier ValueError lanzado por get_benchmarking
+                logger.error(f"Only one value target: '{group}'")
+                result_list.update({group: {
+                                            'accuracy': 0,
+                                            'proportion': 0,
+                                            'rate': 0,
+                                            'normalized_risk': 100,
+                                            'bias_level': self.get_bias_level(100),
+                                            'error': 'only one value target.'
+                                            }})
         logger.info(f"Completed: '{self.__str__()}'")
         return result_list
 
@@ -182,6 +201,7 @@ class Tdx_inconsistency(BaseFairnessMetric):
 
     def normalize_value(self, value):
         accuracy = value - 1
+        normalized = 0
         if accuracy <= 0:
             normalized = 100
         elif accuracy < 0.1:
@@ -190,7 +210,5 @@ class Tdx_inconsistency(BaseFairnessMetric):
             normalized = 80 - ((accuracy - 0.1) / 0.1) * 20
         elif accuracy >= 0.2:
             normalized = 60 - ((accuracy - 0.2) / 0.8) * 60
-        else:
-            normalized = None
 
         return normalized
