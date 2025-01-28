@@ -1,0 +1,218 @@
+{
+    "ethnicity": {
+        "benchmarking": {
+            "labeled_da_inconsistency": 40.0,
+            "labeled_da_positive": 39.8,
+            "operational_da_inconsistency": 20.0,
+            "operational_da_positive": 15.8,
+            "impact_da_inconsistency": 10.0,
+            "impact_da_positive": 3.7
+        },
+        "distribution": {
+            "ref": 80,
+            "labeled_dxa_inconsistency": 0.0045,
+            "labeled_da_informative": 0.9808678500986193,
+            "operational_dxa_inconsistency": 0.1278,
+            "operational_da_informative": 0.9476836357230932,
+            "impact_dxa_inconsistency": 0.2703,
+            "impact_da_informative": 1.13826645822477
+        },
+        "drift": {
+            "ref": 80,
+            "drift": 1.0
+        },
+        "fairness": {
+            "ref": 80,
+            "labeled_equality": 0.0,
+            "labeled_equity": 0.0,
+            "labeled_DI": 0.99,
+            "labeled_SPD": -0.0,
+            "labeled_TPR": 1.014,
+            "labeled_FPR": 0.9786,
+            "labeled_PPV": 1.014,
+            "labeled_PNV": 0.9786,
+            "operational_equality": 0.01,
+            "operational_equity": 0.3,
+            "operational_DI": 0.75,
+            "operational_SPD": -0.13,
+            "impact_equality": 0.56,
+            "impact_equity": 0.56,
+            "impact_DI": 0.35,
+            "impact_SPD": -0.42
+        },
+        "performance": {
+            "ref": 80,
+            "poor_performance": 59.58,
+            "recall": 50.65,
+            "f1_score": 50.15,
+            "accuracy": 49.65,
+            "precision": 49.66,
+            "TP": 1013,
+            "FP": 1027,
+            "TN": 973,
+            "FN": 987
+        }
+    },
+    "age": {
+        "benchmarking": {
+            "labeled_da_inconsistency": 44.8,
+            "labeled_da_positive": 45.2,
+            "operational_da_inconsistency": 44.5,
+            "operational_da_positive": 44.9,
+            "impact_da_inconsistency": 45.0,
+            "impact_da_positive": 45.3
+        },
+        "distribution": {
+            "ref": 80,
+            "labeled_dxa_inconsistency": 0.009,
+            "labeled_da_informative": 0.9980276134122288,
+            "operational_dxa_inconsistency": 0.0132,
+            "operational_da_informative": 0.9746344900475604,
+            "impact_dxa_inconsistency": 0.0158,
+            "impact_da_informative": 1.0
+        },
+        "drift": {
+            "ref": 80,
+            "drift": 0.9922
+        },
+        "fairness": {
+            "ref": 80,
+            "labeled_equality": 0.01,
+            "labeled_equity": 0.0,
+            "labeled_DI": 1.02,
+            "labeled_SPD": 0.01,
+            "labeled_TPR": 0.9682,
+            "labeled_FPR": 0.9976,
+            "labeled_PPV": 0.9682,
+            "labeled_PNV": 0.9976,
+            "operational_equality": 0.01,
+            "operational_equity": 0.01,
+            "operational_DI": 1.02,
+            "operational_SPD": 0.01,
+            "impact_equality": 0.0,
+            "impact_equity": 0.0,
+            "impact_DI": 1.01,
+            "impact_SPD": 0.01
+        },
+        "performance": {
+            "ref": 80,
+            "poor_performance": 57.588,
+            "recall": 49.34,
+            "f1_score": 49.39,
+            "accuracy": 48.7,
+            "precision": 49.45,
+            "TP": 1121,
+            "FP": 1146,
+            "TN": 1060,
+            "FN": 1151
+        }
+    },
+    "sex": {
+        "benchmarking": {
+            "labeled_da_inconsistency": 60.0,
+            "labeled_da_positive": 59.8,
+            "operational_da_inconsistency": 30.0,
+            "operational_da_positive": 19.7,
+            "impact_da_inconsistency": 15.0,
+            "impact_da_positive": 5.7
+        },
+        "distribution": {
+            "ref": 80,
+            "labeled_dxa_inconsistency": 0.0109,
+            "labeled_da_informative": 1.003353057199211,
+            "operational_dxa_inconsistency": 0.275,
+            "operational_da_informative": 1.0450942399154484,
+            "impact_dxa_inconsistency": 0.3428,
+            "impact_da_informative": 1.1955879798506166
+        },
+        "drift": {
+            "ref": 80,
+            "drift": 1.0
+        },
+        "fairness": {
+            "ref": 80,
+            "labeled_equality": 0.0,
+            "labeled_equity": 0.01,
+            "labeled_DI": 0.99,
+            "labeled_SPD": -0.0,
+            "labeled_TPR": 1.0364,
+            "labeled_FPR": 1.0131,
+            "labeled_PPV": 1.0364,
+            "labeled_PNV": 1.0131,
+            "operational_equality": 0.29,
+            "operational_equity": 0.52,
+            "operational_DI": 0.57,
+            "operational_SPD": -0.24,
+            "impact_equality": 0.53,
+            "impact_equity": 0.59,
+            "impact_DI": 0.34,
+            "impact_SPD": -0.44
+        },
+        "performance": {
+            "ref": 80,
+            "poor_performance": 59.052,
+            "recall": 50.95,
+            "f1_score": 50.2,
+            "accuracy": 49.33,
+            "precision": 49.47,
+            "TP": 1532,
+            "FP": 1565,
+            "TN": 1428,
+            "FN": 1475
+        }
+    },
+    "sex_ethnicity": {
+        "benchmarking": {
+            "labeled_da_inconsistency": 25.0,
+            "labeled_da_positive": 24.7,
+            "operational_da_inconsistency": 15.0,
+            "operational_da_positive": 10.0,
+            "impact_da_inconsistency": 10.0,
+            "impact_da_positive": 3.7
+        },
+        "distribution": {
+            "ref": 80,
+            "labeled_dxa_inconsistency": 0.0149,
+            "labeled_da_informative": 0.9875739644970415,
+            "operational_dxa_inconsistency": 0.1717,
+            "operational_da_informative": 1.0450942399154484,
+            "impact_dxa_inconsistency": 0.2703,
+            "impact_da_informative": 1.1955879798506166
+        },
+        "drift": {
+            "ref": 80,
+            "drift": 0.9892
+        },
+        "fairness": {
+            "ref": 80,
+            "labeled_equality": 0.01,
+            "labeled_equity": 0.0,
+            "labeled_DI": 0.99,
+            "labeled_SPD": -0.01,
+            "labeled_TPR": 1.0499,
+            "labeled_FPR": 0.9918,
+            "labeled_PPV": 1.0499,
+            "labeled_PNV": 0.9918,
+            "operational_equality": 0.38,
+            "operational_equity": 0.43,
+            "operational_DI": 0.58,
+            "operational_SPD": -0.23,
+            "impact_equality": 0.56,
+            "impact_equity": 0.56,
+            "impact_DI": 0.34,
+            "impact_SPD": -0.44
+        },
+        "performance": {
+            "ref": 80,
+            "poor_performance": 58.572,
+            "recall": 50.16,
+            "f1_score": 49.48,
+            "accuracy": 49.12,
+            "precision": 48.82,
+            "TP": 623,
+            "FP": 653,
+            "TN": 605,
+            "FN": 619
+        }
+    }
+}

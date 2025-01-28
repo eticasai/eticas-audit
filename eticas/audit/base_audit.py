@@ -7,6 +7,7 @@ Defines the abstract base class for model audits.
 
 from abc import ABC, abstractmethod
 
+
 class BaseAudit(ABC):
     """
     Abstract base class for auditing a model.
@@ -22,8 +23,11 @@ class BaseAudit(ABC):
         self.model = model
 
     @abstractmethod
-    def run_audit(self, dataset_path : str, label_column : str, 
-                  output_column : str = None, positive_output : list = None):
+    def run_audit(self,
+                  dataset_path: str,
+                  label_column: str,
+                  output_column: str = None,
+                  positive_output: list = None):
         """
         :param dataset_path : path to training dataset.
         :param label_column: Name of the column containing the target.
@@ -35,8 +39,7 @@ class BaseAudit(ABC):
         -------
         :return: dict. The result of the training audit.
         """
-        pass
+        raise NotImplementedError("Not implemented.")
 
     def __str__(self):
-        return f"{self.__class__.__name__}(model={self.model.model_name})"
-
+        return self.__class__.__name__

@@ -1,14 +1,19 @@
 from abc import ABC, abstractmethod
 import pandas as pd
+
+
 class BaseFairnessMetric(ABC):
     """
     Abstract base class defining the basic structure of a fairness metric.
     """
 
     @abstractmethod
-    def compute(self, input_data : pd.DataFrame, sensitive_attrs : dict = None,
-                input_features : list = None,
-                column_output : str = None, positive_output : list = [1]):
+    def compute(self,
+                input_data: pd.DataFrame,
+                sensitive_attrs: dict = None,
+                input_features: list = None,
+                column_output: str = None,
+                positive_output: list = [1]):
         """
         Main method to compute the metric.
         Parameters
@@ -22,9 +27,9 @@ class BaseFairnessMetric(ABC):
         -------
         :return: A numeric value or a dictionary containing the metric results.
         """
-        pass
+        raise NotImplementedError("Not implemented.")
 
-    def normalize_value(self,value):
+    def normalize_value(self, value):
         """
         Main method to normalize the metric between 0 (BAD) to 100 (GOOD).
 
@@ -32,19 +37,18 @@ class BaseFairnessMetric(ABC):
 
         :return: A numeric value between 0 to 100.
         """
-        pass
+        raise NotImplementedError("Not implemented.")
 
-    def get_bias_level(self,value):
+    def get_bias_level(self, value):
         """
         Main method to get the bias level.
 
         :param value: Metric value.
 
-        :return: 
+        :return:
         """
         return 'Low/no bias' if value > 80 else 'High bias' if value <= 60 else 'Medium bias'
 
-    
     def validate_parameters(self, **kwargs):
         """
         check input params are null or not.
@@ -52,10 +56,9 @@ class BaseFairnessMetric(ABC):
         for param_name, param_value in kwargs.items():
             if param_value is None:
                 raise ValueError(f"You must provide a value for {param_name} to compute {self.__class__.__name__}")
+
     def __str__(self):
         """
         String representation of the metric.
         """
         return self.__class__.__name__
-
-
