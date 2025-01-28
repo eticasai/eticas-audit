@@ -7,6 +7,8 @@
 
 An open-source Python library designed for developers to calculate fairness metrics and assess bias in machine learning models. This library provides a comprehensive set of tools to ensure transparency, accountability, and ethical AI development.
 
+![Linting Status](https://github.com/eticasai/eticas-audit/actions/workflows/lint.yml/badge.svg)
+
 ## Why Use This Library?
 
 AI System can inherit biases from data or amplify them during decision-making processes. This library helps ensure transparency and accountability by providing actionable insights to improve fairness in AI systems.

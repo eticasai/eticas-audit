@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  lint:
+  run-linters:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,5 +26,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
 
-      - name: Run flake8
-        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+#      - name: Run flake8
+#        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Install Python dependencies
+        run: pip install black flake8
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          black: true
+          flake8: true
