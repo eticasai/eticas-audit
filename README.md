@@ -35,7 +35,7 @@ An open-source Python library designed for developers to calculate fairness metr
   <a href="https://eticas.ai/itaca/" target="_blank"> Website</a> •
   <a href="#-key-features">Key Features</a> •
   <a href="#-installation">Installation</a> •
-  <a href="#-metrics">Metrics</a> •
+  <a href="#%EF%B8%8F-metrics">Metrics</a> •
   <a href="#example-notebooks">Example Notebooks</a> •
   <a href="#quickStart-bias-auditing">QuickStart Bias Auditing</a> •
   <a href="#explore-results">Explore Results</a> •
