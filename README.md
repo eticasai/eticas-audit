@@ -1,20 +1,45 @@
-# Eticas: Bias & Audit Framework
-
 <p align="center">
   <img src="docs/eticas.png" width="150">
 </p>
+# Eticas: Bias & Audit Framework
 
 
 An open-source Python library designed for developers to calculate fairness metrics and assess bias in machine learning models. This library provides a comprehensive set of tools to ensure transparency, accountability, and ethical AI development.
 
-![GitHub release](https://img.shields.io/github/v/release/eticasai/eticas-audit)
+<p align="center">
+    <a href="https://eticas.ai/itaca/">
+        <img alt="Blog" src="https://img.shields.io/website?up_message=ETICAS AI&url=https://eticas.ai/case-study-category/knowledge-center/">
+    </a>
+        <a href="https://github.com/eticasai/eticas-audit/releases">
+        <img alt="Github Notes" src="https://img.shields.io/github/v/release/eticasai/eticas-audit">
+    </a>
+    </a>
+        <a href="https://pypi.org/project/eticas-audit/">
+        <img alt="pipy" src="https://img.shields.io/pypi/v/eticas-audit">
+    </a>
+    <a href="https://github.com/eticasai/eticas-audit/actions/workflows/lint.yml">
+        <img alt="CI" src="https://github.com/eticasai/eticas-audit/actions/workflows/lint.yml/badge.svg">
+    </a>
+        <a href="https://github.com/eticasai/eticas-audit/actions/workflows/unit-tests.yml">
+        <img alt="CI" src="https://github.com/eticasai/eticas-audit/actions/workflows/unit-tests.yml/badge.svg">
+    </a>
+    <a href="https://github.com/eticasai/eticas-audit/blob/master/LICENSE" alt="License">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" />
+    </a>
 
-![Linting Status](https://github.com/eticasai/eticas-audit/actions/workflows/lint.yml/badge.svg)
 
-![Unit Tests](https://github.com/eticasai/eticas-audit/actions/workflows/unit-tests.yml/badge.svg)
+![Flow calculate bias](docs/metric_flow.png)
 
-![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
-
+<p align="center">
+  <a href="https://eticas.ai/itaca/"> Website</a> •
+  <a href="#key-features">Key Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#metrics">Metrics</a> •
+  <a href="#example-notebooks">Example Notebooks</a> •
+  <a href="#quickStart-bias-auditing">QuickStart Bias Auditing</a> •
+  <a href="#explore-results">Explore Results</a> •
+</p>
+    
 ## Why Use This Library?
 
 AI System can inherit biases from data or amplify them during decision-making processes. This library helps ensure transparency and accountability by providing actionable insights to improve fairness in AI systems.
@@ -32,7 +57,6 @@ The stages considered are the following:
 
 
 
-![Flow calculate bias](docs/metric_flow.png)
 
 - **Demographic Benchmarking Monitoring**: Perform in-depth analysis of population distribution.
 - **Model Fairness Monitoring**: Ensure equality and detect equity issues in decision-making.
@@ -84,14 +108,12 @@ Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform]
 | **Drift**                  | Drift Train-Operational | no              | Evaluate changes in data or model performance between training and operational phases.                                                                 |
 
 
-## Quick Install
+## 📥 Installation
 
 
-1. Clone this repository.
-2. In the root folder, run:
 
 ```bash
-pip install .
+pip install eticas-audit
 ```
 
 ## Example Notebooks
