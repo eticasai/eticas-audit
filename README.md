@@ -87,6 +87,7 @@ Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform]
 
 ## ⚖️ Metrics
 
+
 | **Group**                  | **Metric**             | **Label needed?** | **Description**                                                                                                                                         |
 |----------------------------|------------------------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **fairness**               | d_equality            | no                | Analyze whether the system’s disparities occur because the model does not treat all groups equally.                                                    |
