@@ -1,13 +1,14 @@
 <p align="center">
-  <img src="docs/eticas.png" width="150">
+  <img src="https://raw.githubusercontent.com/eticasai/eticas-audit/main/docs/eticas.png" width="150">
 </p>
+
 # Eticas: Bias & Audit Framework
 
 
 An open-source Python library designed for developers to calculate fairness metrics and assess bias in machine learning models. This library provides a comprehensive set of tools to ensure transparency, accountability, and ethical AI development.
 
 <p align="center">
-    <a href="https://eticas.ai/itaca/">
+    <a href="https://eticas.ai/itaca/" target="_blank">
         <img alt="Blog" src="https://img.shields.io/website?up_message=ETICAS AI&url=https://eticas.ai/case-study-category/knowledge-center/">
     </a>
         <a href="https://github.com/eticasai/eticas-audit/releases">
@@ -28,13 +29,13 @@ An open-source Python library designed for developers to calculate fairness metr
     </a>
 
 
-![Flow calculate bias](docs/metric_flow.png)
+![Flow calculate bias](https://raw.githubusercontent.com/eticasai/eticas-audit/main/docs/metric_flow.png)
 
 <p align="center">
-  <a href="https://eticas.ai/itaca/"> Website</a> •
-  <a href="#key-features">Key Features</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#metrics">Metrics</a> •
+  <a href="https://eticas.ai/itaca/" target="_blank"> Website</a> •
+  <a href="#-key-features">Key Features</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-metrics">Metrics</a> •
   <a href="#example-notebooks">Example Notebooks</a> •
   <a href="#quickStart-bias-auditing">QuickStart Bias Auditing</a> •
   <a href="#explore-results">Explore Results</a> •
@@ -75,7 +76,7 @@ Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform]
 
 
 
-| <img src="docs/itaca_dash.jpg" width="400" /> | <img src="docs/itaca_overview.jpg" width="400" /> 
+| <img src="https://raw.githubusercontent.com/eticasai/eticas-audit/main/docs/itaca_dash.jpg" width="400" /> | <img src="https://raw.githubusercontent.com/eticasai/eticas-audit/main/docs/itaca_overview.jpg" width="400" /> 
 
 
 **COMING SOON** 🎉  
