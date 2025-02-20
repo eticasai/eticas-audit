@@ -8,7 +8,7 @@ import pandas as pd
 # coverage run -m unittest discover
 # coverage html
 from eticas.utils.api import get_audit, get_departments, get_models, get_audits, upload_audit
-from eticas.utils.api import scoring_evolution, bias_direction
+from eticas.utils.api import scoring_evolution, bias_direction, overview
 
 
 class TestAPIMethods(unittest.TestCase):
@@ -181,34 +181,100 @@ class TestAPIMethods(unittest.TestCase):
 
         self.assertEqual(status_code, 200)
 
-    def test_scoring_evolution_last_share_gt_ref_and_last_positive_gt_ref(self):
-        result = scoring_evolution(first_share=10, last_share=20,
-                                   first_positive=5, last_positive=16, ref_share=15)
-        self.assertEqual(result["score_first_last"], 100)
-        self.assertEqual(result["score_positives_first_last"], 100)
-
-    def test_scoring_evolution_last_share_lt_first_share_and_last_positive_lt_first_positive(self):
-        # Caso 2: last_share < first_share y last_positive < first_positive
-        result = scoring_evolution(first_share=20, last_share=10,
-                                   first_positive=15, last_positive=10, ref_share=15)
-        self.assertEqual(result["score_first_last"], 0)
-        self.assertEqual(result["score_positives_first_last"], 0)
-
-    def test_scoring_evolution_else_branch_for_both(self):
-        result = scoring_evolution(first_share=10, last_share=12,
-                                   first_positive=10, last_positive=12, ref_share=15)
-        self.assertAlmostEqual(result["score_first_last"], 80.0, places=4)
-        self.assertAlmostEqual(result["score_positives_first_last"], 80.0, places=4)
-
-    def test_scoring_evolution_bug_branch_for_positive(self):
-        with self.assertRaises(UnboundLocalError):
-            scoring_evolution(first_share=10, last_share=12,
-                              first_positive=15, last_positive=15, ref_share=15)
-
     def test_bias_direction(self):
         self.assertEqual(bias_direction(1), "Correct-representation")
         self.assertEqual(bias_direction(0.5), "Under-representation")
         self.assertEqual(bias_direction(2), "Over-representation")
+
+    def test_overview_single_element_equal(self):
+        key0 = "share"
+        key1 = "delta"
+        no_none_share = [(10, "groupA")]
+        ref_evol = 10
+        expected = {
+            "share_groupA_difference": 0,
+            "share_groupA_evol": "equal to"
+        }
+        result = overview(key0, key1, no_none_share, ref_evol)
+        self.assertEqual(result, expected)
+
+    def test_overview_single_element_above(self):
+        key0 = "share"
+        key1 = "delta"
+        no_none_share = [(15, "groupA")]
+        ref_evol = 10
+        expected = {
+            "share_groupA_difference": 5,
+            "share_groupA_evol": "above"
+        }
+        result = overview(key0, key1, no_none_share, ref_evol)
+        self.assertEqual(result, expected)
+
+    def test_overview_single_element_below(self):
+        key0 = "share"
+        key1 = "delta"
+        no_none_share = [(8, "groupA")]
+        ref_evol = 10
+        expected = {
+            "share_groupA_difference": 2,
+            "share_groupA_evol": "below"
+        }
+        result = overview(key0, key1, no_none_share, ref_evol)
+        self.assertEqual(result, expected)
+
+    def test_overview_two_elements(self):
+        key0 = "share"
+        key1 = "delta"
+        no_none_share = [(8, "A"), (12, "B")]
+        ref_evol = 10
+        expected = {
+            "share_A_difference": 2,
+            "share_A_evol": "below",
+            "share_B_difference": 2,
+            "share_B_evol": "above",
+            "delta_A_B": "positive"
+        }
+        result = overview(key0, key1, no_none_share, ref_evol)
+        self.assertEqual(result, expected)
+
+    def test_overview_three_elements(self):
+        key0 = "k0"
+        key1 = "k1"
+        no_none_share = [(10, "X"), (10, "Y"), (5, "Z")]
+        ref_evol = 10
+        expected = {
+            "k0_X_difference": 0,
+            "k0_X_evol": "equal to",
+            "k0_Y_difference": 0,
+            "k0_Y_evol": "equal to",
+            "k0_Z_difference": 5,
+            "k0_Z_evol": "below",
+            "k1_X_Y": "neutral",
+            "k1_Y_Z": "negative"
+        }
+        result = overview(key0, key1, no_none_share, ref_evol)
+        self.assertEqual(result, expected)
+
+    def test_scoring_evolution_above_ref(self):
+        first_share = 5
+        last_share = 15
+        ref_share = 10
+        result = scoring_evolution(first_share, last_share, ref_share)
+        self.assertEqual(result, 100)
+
+    def test_scoring_evolution_below_first(self):
+        first_share = 10
+        last_share = 5
+        ref_share = 8
+        result = scoring_evolution(first_share, last_share, ref_share)
+        self.assertEqual(result, 0)
+
+    def test_scoring_evolution_normalized(self):
+        first_share = 10
+        last_share = 12
+        ref_share = 20
+        result = scoring_evolution(first_share, last_share, ref_share)
+        self.assertAlmostEqual(result, 60.0, places=4)
 
 
 if __name__ == "__main__":

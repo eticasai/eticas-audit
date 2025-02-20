@@ -133,29 +133,19 @@ def upload_audit(department_id=None,
     return response.status_code
 
 
-def overview(no_none_share,
-             no_none_positive,
+def overview(key0, key1,
+             no_none_share,
              ref_evol):
     result = {}
     for s in no_none_share:
         diff = np.round(s[0]-ref_evol, 2).item()
-        result.update({'share_'+s[1]+'_difference': abs(diff)})
-        result.update({'share_'+s[1]+'_evol': 'equal to' if diff == 0 else 'below' if diff < 0 else 'above'})
+        result.update({key0+'_'+s[1]+'_difference': abs(diff)})
+        result.update({key0+'_'+s[1]+'_evol': 'equal to' if diff == 0 else 'below' if diff < 0 else 'above'})
 
     if len(no_none_share) > 1:
         for n in range(len(no_none_share)-1):
             diff = no_none_share[n+1][0] - no_none_share[n][0]
-            key = f"evol_{no_none_share[n][1]}_{no_none_share[n+1][1]}"
-            value = ['negative', 'neutral', 'positive'][(diff > 0) - (diff < 0) + 1]
-            result.update({key: value})
-    for p in no_none_positive:
-        diff = np.round(p[0]-ref_evol, 4).item()
-        result.update({'share_positives_'+p[1]+'_difference': abs(diff)})
-        result.update({'share_positives_'+p[1]+'_evol': 'equal to' if diff == 0 else 'below' if diff < 0 else 'above'})
-    if len(no_none_positive) > 1:
-        for n in range(len(no_none_positive)-1):
-            diff = no_none_positive[n+1][0] - no_none_positive[n][0]
-            key = f"evol_{no_none_positive[n][1]}_{no_none_positive[n+1][1]}"
+            key = f"{key1}_{no_none_share[n][1]}_{no_none_share[n+1][1]}"
             value = ['negative', 'neutral', 'positive'][(diff > 0) - (diff < 0) + 1]
             result.update({key: value})
     return result
@@ -163,8 +153,6 @@ def overview(no_none_share,
 
 def scoring_evolution(first_share,
                       last_share,
-                      first_positive,
-                      last_positive,
                       ref_share):
     if last_share >= ref_share:
         share_risk = 100
@@ -173,17 +161,8 @@ def scoring_evolution(first_share,
     else:
         norm_share = (last_share - 0) / (ref_share - 0)
         share_risk = np.round(norm_share * 100, 4).item()
-    if last_positive > ref_share:
-        positive_risk = 100
-    elif last_positive < first_positive:
-        positive_risk = 0
-    elif first_positive >= ref_share:
-        share_risk = 100
-    else:
-        norm_positive = (last_positive - 0) / (ref_share - 0)
-        positive_risk = np.round(norm_positive * 100, 4).item()
-    return {"score_first_last": share_risk,
-            "score_positives_first_last": positive_risk}
+
+    return share_risk
 
 
 def normalize_benchmarking(X):
@@ -402,38 +381,63 @@ def upload_json_audit(model):
 
                 }
             files = ['training', 'operational', 'impact']
-            share_values = [audit_result[p_id]['benchmarking']['training_data'],
-                            audit_result[p_id]['benchmarking']['operational_data'],
-                            audit_result[p_id]['benchmarking']['impact_data']]
-            positive_values = [audit_result[p_id]['benchmarking']['training_positive'],
-                               audit_result[p_id]['benchmarking']['operational_positive'],
-                               audit_result[p_id]['benchmarking']['impact_positive']]
-            ref_evol = audit_result[p_id]['benchmarking']['ref']
-            no_none_share = [(v, f) for f, v in zip(files, share_values) if v is not None]
-            if len(no_none_share) == 0:
-                share_first_last = [0] + [ref_evol]
-            elif len(no_none_share) == 1:
-                share_first_last = [no_none_share[0][0]] + [ref_evol]
-            else:
-                share_first_last = [no_none_share[0][0]] + [no_none_share[-1][0]]
 
-            no_none_positive = [(v, f) for f, v in zip(files, positive_values) if v is not None]
-            if len(no_none_share) == 0:
-                positive_first_last = [0] + [ref_evol]
+            evolution_params = {'score_first_last': {
+                'key': 'benchmarking',
+                'fields': ['training_data', 'operational_data', 'impact_data'],
+                'overview': {'key0': 'share', 'key1': 'evol'},
+                },
+                'score_positives_first_last': {
+                'key': 'benchmarking',
+                'fields': ['training_positive', 'operational_positive', 'impact_positive'],
+                'overview': {'key0': 'share_positives', 'key1': 'evol_positives'},
+                },
+                'score_DI_first_last': {
+                'key': 'fairness',
+                'fields': ['training_DI', 'operational_DI', 'impact_DI'],
+                'overview': {'key0': 'share_DI', 'key1': 'evol_DI'},
+                },
+                'score_EQA_first_last': {
+                'key': 'fairness',
+                'fields': ['training_equality', 'operational_equality', 'impact_equality'],
+                'overview': {'key0': 'share_EQA', 'key1': 'evol_EQA'},
+                },
+                'score_EQI_first_last': {
+                'key': 'fairness',
+                'fields': ['training_equity', 'operational_equity', 'impact_equity'],
+                'overview': {'key0': 'share_EQI', 'key1': 'evol_EQI'},
+                },
+                'score_proxy_first_last': {
+                'key': 'distribution',
+                'fields': ['training_proxy', 'operational_proxy', 'impact_proxy'],
+                'overview': {'key0': 'share_proxy', 'key1': 'evol_proxy'},
+                },
+                'score_label_first_last': {
+                'key': 'distribution',
+                'fields': ['training_proxy', 'operational_proxy', 'impact_proxy'],
+                'overview': {'key0': 'share_label', 'key1': 'evol_label'},
+                }}
+            audit_result[p_id]['scoring_evolution'] = {}
+            audit_result[p_id]['overview'] = {}
+            for evolution in evolution_params.items():
+                share_values = [audit_result[p_id][evolution[1]['key']][f] for f in evolution[1]['fields']]
 
-            elif len(no_none_share) == 1:
-                positive_first_last = [no_none_positive[0][0]] + [ref_evol]
-            else:
-                positive_first_last = [no_none_positive[0][0]] + [no_none_positive[-1][0]]
+                ref_evol = audit_result[p_id][evolution[1]['key']]['ref']
+                no_none_share = [(v, f) for f, v in zip(files, share_values) if v is not None]
+                if len(no_none_share) == 0:
+                    share_first_last = [0] + [ref_evol]
+                elif len(no_none_share) == 1:
+                    share_first_last = [no_none_share[0][0]] + [ref_evol]
+                else:
+                    share_first_last = [no_none_share[0][0]] + [no_none_share[-1][0]]
 
-            audit_result[p_id]['scoring_evolution'] = scoring_evolution(share_first_last[0],
-                                                                        share_first_last[1],
-                                                                        positive_first_last[0],
-                                                                        positive_first_last[1],
-                                                                        ref_evol)
-            audit_result[p_id]['overview'] = overview(no_none_share,
-                                                      no_none_positive,
-                                                      ref_evol)
+                audit_result[p_id]['scoring_evolution'][evolution[0]] = scoring_evolution(share_first_last[0],
+                                                                                          share_first_last[1],
+                                                                                          ref_evol)
+                audit_result[p_id]['overview'].update(overview(evolution[1]['overview']['key0'],
+                                                               evolution[1]['overview']['key1'],
+                                                               no_none_share,
+                                                               ref_evol))
     result = {
         'detail': {
             'training_detail': model.labeled_results,
