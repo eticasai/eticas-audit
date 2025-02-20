@@ -1,10 +1,15 @@
 # `setup.py`
-from setuptools import setup
+from setuptools import setup, find_packages
+import os
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
-INSTALL_REQUIRES = [
-      'numpy==2.1.2', 'pandas==2.2.3', 'scikit-learn==1.5.2', 'pyarrow==19.0.0'
-      ]
+
+
+def read_requirements():
+    req_path = os.path.join(os.path.dirname(__file__), "requirements.txt")
+    with open(req_path, encoding="utf-8") as f:
+        return [line.strip() for line in f if line.strip() and not line.startswith("#")]
+
 
 setup(
     name="eticas",
@@ -15,7 +20,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/eticasai/eticas-audit",
-    install_requires=INSTALL_REQUIRES,
+    install_requires=read_requirements(),
     python_requires='>=3.11.9',
+    packages=find_packages(include=['eticas', 'eticas.*'])
 )
 
