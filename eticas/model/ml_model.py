@@ -13,6 +13,7 @@ from eticas.audit.drift_audit import DriftAudit
 import logging
 import warnings
 import pandas as pd
+from io import StringIO
 logger = logging.getLogger(__name__)
 
 
@@ -130,9 +131,49 @@ class MLModel(BaseModel):
                                              positive_output_prod)
         logger.info(f"Drift audit finished for model: {self.model_name}")
 
-    # to do report API KEY ITACA
+    def impact_ratio(self,
+                     stage=None,
+                     sensitive_attribute=None):
+        """
+        Get impact ratio.
+
+        Parameters
+        ----------
+       :param stage: ['labeled','production','impacted'].
+       :param sensitive_attribute: Name of the column include in sensitives attributes..
+       :param positive_output: Values of the column_output consider as positive.
+
+        Returns
+        -------
+       :return: DataFrame. The result of the impact ratio.
+        """
+
+        if stage == 'labeled':
+            if sensitive_attribute in self.labeled_results['impact_ratio'].keys():
+                return pd.read_json(StringIO(
+                        self.labeled_results['impact_ratio'][sensitive_attribute]['df_result']),
+                        orient='split')
+            else:
+                raise ValueError("You must provide a correct attribute.")
+        elif stage == 'production':
+            if sensitive_attribute in self.production_results['impact_ratio'].keys():
+                return pd.read_json(StringIO(
+                        self.production_results['impact_ratio'][sensitive_attribute]['df_result']),
+                        orient='split')
+            else:
+                raise ValueError("You must provide a correct attribute.")
+        elif stage == 'impacted':
+            if sensitive_attribute in self.impacted_results['impact_ratio'].keys():
+                return pd.read_json(StringIO(
+                        self.impacted_results['impact_ratio'][sensitive_attribute]['df_result']),
+                        orient='split')
+            else:
+                raise ValueError("You must provide a correct attribute.")
+        else:
+            raise ValueError("You must provide a correct stage.")
 
     def json_results(self, norm_values=True):
+
         """
         Return the results normalize between 0 (BAD) to 100 (GOOD) or the metric value."""
 

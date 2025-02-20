@@ -16,6 +16,7 @@ from ..metrics.da_informative import Da_informative
 from ..metrics.d_statisticalparity import D_statisticalparity
 from ..metrics.d_parity import D_parity
 from ..metrics.da_fairness import Da_fairness
+from ..metrics.disparate_impact import DisparateImpact
 import logging
 logger = logging.getLogger(__name__)
 
@@ -74,4 +75,8 @@ class UnlabeledAudit(BaseAudit):
                                                              self.model.sensitive_attributes,
                                                              output_column,
                                                              positive_output)})
+        unlabeled_log.update({'impact_ratio': DisparateImpact().compute(input_data,
+                                                                        self.model.sensitive_attributes,
+                                                                        output_column,
+                                                                        positive_output)})
         return unlabeled_log

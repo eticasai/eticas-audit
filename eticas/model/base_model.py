@@ -64,7 +64,7 @@ class BaseModel(ABC):
         self.state = state
         self.sensitive_attributes = sensitive_attributes
         self.features = features
-        self.training_results = {}
+        self.labeled_results = {}
         self.production_results = {}
         self.impacted_results = {}
         self.drift_results = {}
