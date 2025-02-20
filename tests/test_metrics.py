@@ -13,6 +13,7 @@ from eticas.metrics.dxa_inconsistency import Dxa_inconsistency
 from eticas.metrics.performance import Performance
 from eticas.metrics.tdx_inconsistency import Tdx_inconsistency
 from eticas.data.loaders import load_dataset
+from eticas.metrics.disparate_impact import DisparateImpact
 import unittest
 
 sensitive_attributes = {'sex': {'columns': [
@@ -897,6 +898,25 @@ class TestMetrics(unittest.TestCase):
         self.assertAlmostEqual(Tdx_inconsistency().normalize_value(1.09), 81.99999999999999)
         self.assertAlmostEqual(Tdx_inconsistency().normalize_value(1.19), 62.000000000000014)
         self.assertAlmostEqual(Tdx_inconsistency().normalize_value(1.21), 59.25)
+
+    def test_disparate_impact(self):
+
+        input_data = load_dataset('files/example_training_scoring.csv')
+        input_data = input_data.dropna()
+        logger.info(f"Training data loaded '{input_data.shape}'")
+        if input_data.shape[0] == 0:
+            raise ValueError("Training dataset shape is 0.")
+
+        DisparateImpact().compute(input_data, sensitive_attributes,
+                                  label_column, positive_output)
+        input_data = load_dataset('files/example_training_binary_2.csv')
+        input_data = input_data.dropna()
+        logger.info(f"Training data loaded '{input_data.shape}'")
+        if input_data.shape[0] == 0:
+            raise ValueError("Training dataset shape is 0.")
+
+        DisparateImpact().compute(input_data, sensitive_attributes,
+                                  label_column, positive_output)
 
 
 if __name__ == '__main__':

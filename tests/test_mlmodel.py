@@ -6,6 +6,7 @@ from eticas.model.ml_model import MLModel
 from eticas.audit.labeled_audit import LabeledAudit
 from eticas.audit.unlabeled_audit import UnlabeledAudit
 from eticas.audit.drift_audit import DriftAudit
+from eticas.utils.api import upload_json_audit
 import pandas as pd
 import pandas.testing as pdt
 import json
@@ -43,6 +44,43 @@ sensitive_attributes = {'sex': {'columns': [
                                                     "sex", "ethnicity"
                                                     ],
                                           'type': 'complex'}}
+distribution_ref = {'sex': 40,
+                    'ethnicity': 40,
+                    'age': 40,
+                    'sex_ethnicity': 40
+                    }
+sensitive_attribute2 = {'sex': {'columns': [
+                                            {
+                                                "name": "sex",
+                                                "underprivileged": [2]
+                                            }
+                                        ],
+                                'type': 'simple'},
+                        'ethnicity': {'columns': [
+                                                 {
+                                                     "name": "ethnicity",
+                                                     "privileged": [1]
+                                                 }
+                                        ],
+                                      'type': 'simple'},
+                        'age': {'columns': [
+                                            {
+                                                 "name": "age",
+                                                 "privileged": [3, 4]
+                                            }
+                                        ],
+                                'type': 'simple'},
+                        'no_columns': {'columns': [
+                            {
+                                "name": "no_column",
+                                "privileged": [3, 4]
+                                  }
+                                  ],
+                                  'type': 'simple'},
+                        'sex_ethnicity': {'groups': [
+                                                    "sex", "ethnicity"
+                                                    ],
+                                          'type': 'complex'}}
 logging.basicConfig(
     level=logging.ERROR,
     format='[%(levelname)s] %(name)s - %(message)s'
@@ -58,6 +96,7 @@ class TestMetrics(unittest.TestCase):
             country="USA",
             state="CA",
             sensitive_attributes=sensitive_attributes,
+            distribution_ref=distribution_ref,
             features=["feature_0", "feature_1", "feature_2"]
         )
         self.model.run_labeled_audit(dataset_path='files/example_training_binary_2.csv',
@@ -111,6 +150,46 @@ class TestMetrics(unittest.TestCase):
         result = self.model.impacted_results
         self.assertEqual(result, expected)
 
+    def test_json_upload(self):
+        result = upload_json_audit(model=self.model)
+        self.assertIsInstance(result, dict)
+        model_label = MLModel(
+            model_name="ML Testing Regression",
+            description="A logistic regression model to illustrate audits",
+            country="USA",
+            state="CA",
+            sensitive_attributes=sensitive_attribute2,
+            features=["feature_0"]
+        )
+        model_label.run_labeled_audit(dataset_path='files/example_training_scoring.csv',
+                                      label_column='outcome', output_column='predicted_outcome', positive_output=[1])
+        model_label.run_impacted_audit(dataset_path='files/example_impact_scoring.csv',
+                                       output_column='recorded_outcome', positive_output=[1])
+        result = upload_json_audit(model=model_label)
+        self.assertIsInstance(result, dict)
+        model_prod = MLModel(
+            model_name="ML Testing Regression",
+            description="A logistic regression model to illustrate audits",
+            country="USA",
+            state="CA",
+            sensitive_attributes=sensitive_attributes,
+            features=["feature_0", "feature_1", "feature_2"]
+        )
+        model_prod.run_production_audit(dataset_path='files/example_operational_binary_2.csv',
+                                        output_column='predicted_outcome', positive_output=[1])
+        result = upload_json_audit(model=model_prod)
+        self.assertIsInstance(result, dict)
+        model_none = MLModel(
+            model_name="ML Testing Regression",
+            description="A logistic regression model to illustrate audits",
+            country="USA",
+            state="CA",
+            sensitive_attributes=sensitive_attributes,
+            features=["feature_0", "feature_1", "feature_2"]
+        )
+        result = upload_json_audit(model=model_none)
+        self.assertIsInstance(result, dict)
+
     def test_test_drift_dev_shape(self):
         with self.assertRaises(ValueError) as context:
             DriftAudit(self.model).run_audit('tests/ml_files/zero_shape.csv', None, None, None, None, None)
@@ -136,6 +215,33 @@ class TestMetrics(unittest.TestCase):
         # Test that the __str__ method returns the class name.
         self.assertEqual(str(self.model), "MLModel(ML Testing Regression)",
                          "The __str__ method should return the class name.")
+
+    def test_disparate_impact(self):
+
+        df_labeled = self.model.impact_ratio('labeled', 'sex')
+        self.assertIsInstance(df_labeled, pd.DataFrame)
+
+        df_production = self.model.impact_ratio('production', 'sex')
+        self.assertIsInstance(df_production, pd.DataFrame)
+
+        df_impacted = self.model.impact_ratio('impacted', 'sex')
+        self.assertIsInstance(df_impacted, pd.DataFrame)
+
+        with self.assertRaises(ValueError) as context:
+            self.model.impact_ratio('labeled', 'invalid')
+        self.assertEqual(str(context.exception), "You must provide a correct attribute.")
+
+        with self.assertRaises(ValueError) as context:
+            self.model.impact_ratio('production', 'invalid')
+        self.assertEqual(str(context.exception), "You must provide a correct attribute.")
+
+        with self.assertRaises(ValueError) as context:
+            self.model.impact_ratio('impacted', 'invalid')
+        self.assertEqual(str(context.exception), "You must provide a correct attribute.")
+
+        with self.assertRaises(ValueError) as context:
+            self.model.impact_ratio('unknown', 'XXXX')
+        self.assertEqual(str(context.exception), "You must provide a correct stage.")
 
 
 if __name__ == '__main__':

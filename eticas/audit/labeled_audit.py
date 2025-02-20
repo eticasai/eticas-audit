@@ -18,6 +18,7 @@ from ..metrics.performance import Performance
 from ..metrics.d_equalodds import D_equalodds
 from ..metrics.d_calibrated import D_calibrated
 from ..metrics.da_fairness import Da_fairness
+from ..metrics.disparate_impact import DisparateImpact
 import logging
 logger = logging.getLogger(__name__)
 
@@ -92,4 +93,8 @@ class LabeledAudit(BaseAudit):
                                                                    self.model.sensitive_attributes,
                                                                    label_column,
                                                                    positive_output, output_column)})
+        labeled_log.update({'impact_ratio': DisparateImpact().compute(input_data,
+                                                                      self.model.sensitive_attributes,
+                                                                      label_column,
+                                                                      positive_output)})
         return labeled_log

@@ -477,5 +477,42 @@
                 "bias_level": "Low/no bias"
             }
         }
+    },
+    "impact_ratio": {
+        "sex": {
+            "df_result": "{\"columns\":[\"sex\",\"# of Applicants\",\"Selection Rate\",\"Impact Ratio\"],\"index\":[0,1],\"data\":[[1,4000,\"50.4%\",\"1.000\"],[2,6000,\"50.1%\",\"0.993\"]]}",
+            "unknown": 0,
+            "pass": 2,
+            "total_filter": 2,
+            "total": 2
+        },
+        "ethnicity": {
+            "df_result": "{\"columns\":[\"ethnicity\",\"# of Applicants\",\"Selection Rate\",\"Impact Ratio\"],\"index\":[0,1],\"data\":[[1,6000,\"50.4%\",\"1.000\"],[2,4000,\"50.0%\",\"0.992\"]]}",
+            "unknown": 0,
+            "pass": 2,
+            "total_filter": 2,
+            "total": 2
+        },
+        "age": {
+            "df_result": "{\"columns\":[\"age\",\"# of Applicants\",\"Selection Rate\",\"Impact Ratio\"],\"index\":[0,1,2,3,4,5],\"data\":[[2,1429,\"50.2%\",\"0.972\"],[3,2691,\"51.0%\",\"0.986\"],[4,2831,\"48.8%\",\"0.944\"],[5,1528,\"51.7%\",\"1.000\"],[6,987,\"50.8%\",\"0.982\"],[7,534,\"49.3%\",\"0.953\"]]}",
+            "unknown": 0,
+            "pass": 6,
+            "total_filter": 6,
+            "total": 6
+        },
+        "error": {
+            "df_result": null,
+            "unknown": null,
+            "pass": null,
+            "total_filter": null,
+            "total": null
+        },
+        "sex_ethnicity": {
+            "df_result": "{\"columns\":[\"sex\",\"ethnicity\",\"# of Applicants\",\"Selection Rate\",\"Impact Ratio\"],\"index\":[0,1,2,3],\"data\":[[1,1,2500,\"50.4%\",\"0.997\"],[1,2,1500,\"50.5%\",\"1.000\"],[2,1,3500,\"50.4%\",\"0.998\"],[2,2,2500,\"49.7%\",\"0.983\"]]}",
+            "unknown": 0,
+            "pass": 4,
+            "total_filter": 4,
+            "total": 4
+        }
     }
 }
