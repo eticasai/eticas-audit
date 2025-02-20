@@ -1,0 +1,17 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eticas-audit"
+version = "0.1.0"
+description = "An open-source Python library designed for developers to calculate fairness metrics and assess bias in machine learning models."
+readme = "README.md"
+authors = [{name = "Eticas AI", email = "it@eticas.ai"}]
+license = {text = "Apache-2.0"}
+dynamic = ['requires-python']
+
+[tool.setuptools]
+packages = [
+    "eticas"
+]
