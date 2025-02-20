@@ -44,7 +44,11 @@ sensitive_attributes = {'sex': {'columns': [
                                                     "sex", "ethnicity"
                                                     ],
                                           'type': 'complex'}}
-
+distribution_ref = {'sex': 40,
+                    'ethnicity': 40,
+                    'age': 40,
+                    'sex_ethnicity': 40
+                    }
 sensitive_attribute2 = {'sex': {'columns': [
                                             {
                                                 "name": "sex",
@@ -92,6 +96,7 @@ class TestMetrics(unittest.TestCase):
             country="USA",
             state="CA",
             sensitive_attributes=sensitive_attributes,
+            distribution_ref=distribution_ref,
             features=["feature_0", "feature_1", "feature_2"]
         )
         self.model.run_labeled_audit(dataset_path='files/example_training_binary_2.csv',

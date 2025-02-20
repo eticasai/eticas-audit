@@ -20,6 +20,7 @@ class BaseModel(ABC):
         country: str = None,
         state: str = None,
         sensitive_attributes: dict = None,
+        distribution_ref: dict = None,
         features: list = None
     ):
         """
@@ -55,6 +56,7 @@ class BaseModel(ABC):
                                          'type' : 'simple'}
                  'gender_ethnicity' : {'groups' : ["gender","ethnicity"],
                                                 'type' : 'complex'}}
+        :param distribution_ref : dict Expected distribution for underprivileged group in production.
         :param features : list, optional
             The features used by the model (column names in a dataset).
         """
@@ -68,6 +70,10 @@ class BaseModel(ABC):
         self.production_results = {}
         self.impacted_results = {}
         self.drift_results = {}
+        if distribution_ref is None:
+            self.distribution_ref = {}
+        else:
+            self.distribution_ref = distribution_ref
 
     def __str__(self):
         return f"{self.__class__.__name__}({self.model_name})"

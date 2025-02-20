@@ -187,7 +187,10 @@ def upload_json_audit(model):
     for p in json_result.keys():
         if p != 'error':
             p_id = ''+p.lower()
-            ref_aux = 50
+            if p in str(model.distribution_ref):
+                ref_aux = model.distribution_ref[p]
+            else:
+                ref_aux = 50
             audit_result[p_id] = {}
             training_data = json_result.get(p, {}).get('benchmarking',
                                                        {}).get('labeled_da_inconsistency', None)
