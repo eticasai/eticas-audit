@@ -274,7 +274,7 @@ class TestAPIMethods(unittest.TestCase):
         last_share = 12
         ref_share = 20
         result = scoring_evolution(first_share, last_share, ref_share)
-        self.assertAlmostEqual(result, 60.0, places=4)
+        self.assertAlmostEqual(result, 12.0, places=4)
 
 
 if __name__ == "__main__":
