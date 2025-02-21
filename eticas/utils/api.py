@@ -157,10 +157,12 @@ def scoring_evolution(first_share,
     if last_share >= ref_share:
         share_risk = 100
     elif last_share < first_share:
-        share_risk = 0
+        penalty = -20
+        norm_share = (last_share - 0) / (100 - 0)
+        share_risk = max(np.round(penalty + (norm_share * 100), 4).item(), 0)
     else:
-        norm_share = (last_share - 0) / (ref_share - 0)
-        share_risk = np.round(norm_share * 100, 4).item()
+        norm_share = (last_share - 0) / (100 - 0)
+        share_risk = max(np.round((norm_share * 100), 4).item(), 0)
 
     return share_risk
 
