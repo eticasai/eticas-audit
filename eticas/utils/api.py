@@ -419,7 +419,7 @@ def upload_json_audit(model):
                 },
                 'score_label_first_last': {
                 'key': 'distribution',
-                'fields': ['training_proxy', 'operational_proxy', 'impact_proxy'],
+                'fields': ['training_label', 'operational_label', 'impact_label'],
                 'overview': {'key0': 'share_label', 'key1': 'evol_label'},
                 }}
             audit_result[p_id]['scoring_evolution'] = {}
