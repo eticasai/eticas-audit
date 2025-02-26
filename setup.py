@@ -20,8 +20,15 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/eticasai/eticas-audit",
-    install_requires=read_requirements(),
-    python_requires='>=3.11.9',
+    install_requires=[
+        "numpy==2.1.2",
+        "pandas==2.2.3",
+        "scikit-learn==1.5.2",
+        "pyarrow==19.0.0",
+        "scipy==1.15.1",
+        "coverage==7.6.10",
+        "requests==2.32.3"
+    ],
     packages=find_packages(include=['eticas', 'eticas.*'])
 )
 
