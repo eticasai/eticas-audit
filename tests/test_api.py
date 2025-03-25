@@ -15,6 +15,7 @@ class TestAPIMethods(unittest.TestCase):
 
     def setUp(self):
         os.environ["ITACA_API_TOKEN"] = "dummy_token"
+        os.environ["ITACA_BASE_URL"] = "https://itaca.eticas.ai/api/v1/"
 
     @patch("eticas.utils.api.requests.get")
     def test_get_audit_success(self, mock_get):
@@ -75,7 +76,7 @@ class TestAPIMethods(unittest.TestCase):
         self.assertIsInstance(df, pd.DataFrame)
         self.assertEqual(len(df), len(expected_results["results"]))
 
-    @patch.dict(os.environ, {}, clear=True)
+    @patch.dict(os.environ, {'ITACA_BASE_URL': "https://itaca.eticas.ai/api/v1/"}, clear=True)
     def test_missing_api_key(self):
         with self.assertRaises(ValueError) as context:
             get_audit(audit_id=2289)
@@ -92,6 +93,24 @@ class TestAPIMethods(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             get_audits(model=263)
         self.assertEqual(str(context.exception), "❌ 'ITACA_API_TOKEN' NO DEFINED.")
+
+    @patch.dict(os.environ, {}, clear=True)
+    def test_missing_base_url(self):
+        with self.assertRaises(ValueError) as context:
+            get_audit(audit_id=2289)
+        self.assertEqual(str(context.exception), "❌ 'ITACA_BASE_URL' NO DEFINED.")
+
+        with self.assertRaises(ValueError) as context:
+            get_departments()
+        self.assertEqual(str(context.exception), "❌ 'ITACA_BASE_URL' NO DEFINED.")
+
+        with self.assertRaises(ValueError) as context:
+            get_models(department=216)
+        self.assertEqual(str(context.exception), "❌ 'ITACA_BASE_URL' NO DEFINED.")
+
+        with self.assertRaises(ValueError) as context:
+            get_audits(model=263)
+        self.assertEqual(str(context.exception), "❌ 'ITACA_BASE_URL' NO DEFINED.")
 
     @patch("eticas.utils.api.requests.get")
     def test_api_error_responses(self, mock_get):
@@ -117,11 +136,17 @@ class TestAPIMethods(unittest.TestCase):
             get_audits(model=263)
         self.assertIn("500", str(context.exception))
 
-    @patch.dict(os.environ, {}, clear=True)
+    @patch.dict(os.environ, {'ITACA_BASE_URL': "https://itaca.eticas.ai/api/v1/"}, clear=True)
     def test_upload_audit_missing_api_key(self):
         with self.assertRaises(ValueError) as context:
             upload_audit(department_id=1, model_id=100, model={"dummy": "data"})
         self.assertEqual(str(context.exception), "❌ 'ITACA_API_TOKEN' NO DEFINED.")
+
+    @patch.dict(os.environ, {'ITACA_API_TOKEN': "DUMMY"}, clear=True)
+    def test_upload_audit_missing_base_url(self):
+        with self.assertRaises(ValueError) as context:
+            upload_audit(department_id=1, model_id=100, model={"dummy": "data"})
+        self.assertEqual(str(context.exception), "❌ 'ITACA_BASE_URL' NO DEFINED.")
 
     @patch("eticas.utils.api.get_departments")
     def test_upload_audit_invalid_department_empty(self, mock_get_departments):
