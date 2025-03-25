@@ -54,7 +54,8 @@ class Da_informative(BaseFairnessMetric):
         train_columns = [c for c in input_data.columns if c in input_features]
 
         if len(train_columns) == 0:
-            raise ValueError("Input features are not in dataset.")
+            logger.error("Input features are not in dataset.")
+            return {'error': "Input features are not in dataset."}
         result_list = {}
 
         for item in json_groups.items():

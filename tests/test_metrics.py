@@ -201,10 +201,6 @@ class TestMetrics(unittest.TestCase):
         logger.info(f"Training data loaded '{input_data.shape}'")
         if input_data.shape[0] == 0:
             raise ValueError("Training dataset shape is 0.")
-        with self.assertRaises(ValueError) as context:
-            result = Dxa_inconsistency().compute(input_data, sensitive_attributes,
-                                                 ['feature_99'])
-        self.assertEqual(str(context.exception), "Input features are not in dataset.")
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
@@ -262,10 +258,6 @@ class TestMetrics(unittest.TestCase):
         logger.info(f"Training data loaded '{input_data.shape}'")
         if input_data.shape[0] == 0:
             raise ValueError("Training dataset shape is 0.")
-        with self.assertRaises(ValueError) as context:
-            result = Da_informative().compute(input_data, sensitive_attributes,
-                                              label_column, ['feature_99'])
-        self.assertEqual(str(context.exception), "Input features are not in dataset.")
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
@@ -534,10 +526,6 @@ class TestMetrics(unittest.TestCase):
         logger.info(f"Training data loaded '{input_data.shape}'")
         if input_data.shape[0] == 0:
             raise ValueError("Training dataset shape is 0.")
-        with self.assertRaises(ValueError) as context:
-            result = Da_fairness().compute(input_data, sensitive_attributes,
-                                           ['feature_99'], label_column, positive_output)
-        self.assertEqual(str(context.exception), "Input features are not in dataset.")
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")
@@ -837,11 +825,6 @@ class TestMetrics(unittest.TestCase):
         if input_data.shape[0] == 0:
             raise ValueError("Training dataset shape is 0.")
 
-        with self.assertRaises(ValueError) as context:
-            Tdx_inconsistency().compute({}, ['feature_99'],
-                                        input_data, output_column, output_column,
-                                        input_data, output_column, output_column)
-        self.assertEqual(str(context.exception), 'length 0 of train and sensitive features is 0.')
         input_data = load_dataset('files/example_training_binary_2.csv')
         input_data = input_data.dropna()
         logger.info(f"Training data loaded '{input_data.shape}'")

@@ -78,7 +78,8 @@ class Tdx_inconsistency(BaseFairnessMetric):
 
         feat_columns = train_columns + sensitive_columns
         if len(feat_columns) == 0:
-            raise ValueError('length 0 of train and sensitive features is 0.')
+            logger.error("length 0 of train and sensitive features is 0.")
+            return {'error': 'length 0 of train and sensitive features is 0.'}
         try:
             group = 'overall'
             data_dev = input_data_dev[feat_columns + [column_output]]

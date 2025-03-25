@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 import numpy as np
 import json
-BASE_URL = "https://staging.itaca.eticas.ai/api/v1/"
 
 
 def get_audit(audit_id=2289):
@@ -15,6 +14,9 @@ def get_audit(audit_id=2289):
     ----------
    :return: A dictionary containing the results for each group
     """
+    BASE_URL = os.getenv("ITACA_BASE_URL")
+    if not BASE_URL:
+        raise ValueError("❌ 'ITACA_BASE_URL' NO DEFINED.")
     API_TOKEN = os.getenv("ITACA_API_TOKEN")
     if not API_TOKEN:
         raise ValueError("❌ 'ITACA_API_TOKEN' NO DEFINED.")
@@ -37,6 +39,9 @@ def get_departments():
     ----------
    :return: A DataFrame with all the departments.
     """
+    BASE_URL = os.getenv("ITACA_BASE_URL")
+    if not BASE_URL:
+        raise ValueError("❌ 'ITACA_BASE_URL' NO DEFINED.")
     API_TOKEN = os.getenv("ITACA_API_TOKEN")
     if not API_TOKEN:
         raise ValueError("❌ 'ITACA_API_TOKEN' NO DEFINED.")
@@ -61,6 +66,9 @@ def get_models(department=None):
     ----------
    :return: A DataFrame containing all the models for selected department.
     """
+    BASE_URL = os.getenv("ITACA_BASE_URL")
+    if not BASE_URL:
+        raise ValueError("❌ 'ITACA_BASE_URL' NO DEFINED.")
     API_TOKEN = os.getenv("ITACA_API_TOKEN")
     if not API_TOKEN:
         raise ValueError("❌ 'ITACA_API_TOKEN' NO DEFINED.")
@@ -85,6 +93,9 @@ def get_audits(model=None):
     ----------
    :return: A DataFrame containing the audits.
     """
+    BASE_URL = os.getenv("ITACA_BASE_URL")
+    if not BASE_URL:
+        raise ValueError("❌ 'ITACA_BASE_URL' NO DEFINED.")
     API_TOKEN = os.getenv("ITACA_API_TOKEN")
     if not API_TOKEN:
         raise ValueError("❌ 'ITACA_API_TOKEN' NO DEFINED.")
@@ -104,6 +115,9 @@ def get_audits(model=None):
 def upload_audit(department_id=None,
                  model_id=None,
                  model=None):
+    BASE_URL = os.getenv("ITACA_BASE_URL")
+    if not BASE_URL:
+        raise ValueError("❌ 'ITACA_BASE_URL' NO DEFINED.")
     API_TOKEN = os.getenv("ITACA_API_TOKEN")
     if not API_TOKEN:
         raise ValueError("❌ 'ITACA_API_TOKEN' NO DEFINED.")
@@ -188,7 +202,10 @@ def upload_json_audit(model):
     audit_result = {}
     for p in json_result.keys():
         if p != 'error':
-            p_id = ''+p.lower()
+            if p.lower() not in ['gender', 'ethnicity', 'age', 'gender_ethnicity']:
+                p_id = 'sensitive_'+p.lower()
+            else:
+                p_id = ''+p.lower()
             if p in str(model.distribution_ref):
                 ref_aux = model.distribution_ref[p]
             else:
