@@ -202,7 +202,7 @@ def upload_json_audit(model):
     audit_result = {}
     for p in json_result.keys():
         if p != 'error':
-            if p.lower() not in ['gender', 'ethnicity', 'age', 'gender_ethnicity']:
+            if (p.lower() not in ['gender', 'ethnicity', 'age', 'gender_ethnicity']) & ('sensitive_' not in p.lower()):
                 p_id = 'sensitive_'+p.lower()
             else:
                 p_id = ''+p.lower()
