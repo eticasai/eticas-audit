@@ -76,7 +76,7 @@ Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform]
 
 You can use the *Eticas Itaca* API to automatically upload the results of your audits and model evaluations. This enables continuous monitoring of your AI systems' performance and fairness, directly from your workflow.
 
-Make sure to generate your API key from your user panel and set the required environment variables before calling the `upload_audit` function.
+Make sure to generate your API key from your user panel and set the required environment variables before calling the `upload_audit` function. 
 
 ```python
 import os
@@ -90,12 +90,21 @@ os.environ['ITACA_API_TOKEN'] = "API_KEY"
 from eticas.utils.api import upload_audit
 
 # Upload the audit by specifying the department and model IDs
-upload_audit(department_id='id',
-             model_id='id',
+upload_audit(department_id=id,
+             model_id=id,
              model=model)
 ```
 
+## 📡 Additional API Utilities
 
+Additionally, the following utility functions are available to interact with the API and retrieve useful information:
+
+```python
+get_departments()                # List all available departments
+get_models(department=None)      # List models, filtering by department
+get_audits(model=None)           # Retrieve all audits, filtered by model
+get_audit(audit_id=id)         # Retrieve details of a specific audit
+```
 
 ## ⚖️ Metrics
 
