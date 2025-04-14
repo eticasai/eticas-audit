@@ -49,15 +49,6 @@ AI System can inherit biases from data or amplify them during decision-making pr
 
 This framework is designed to audit AI systems comprehensively across all stages of their lifecycle. At its core, it focuses on comparing privileged and underprivileged groups, ensuring a fair evaluation of model behavior. 
 
-With a wide range of metrics, this framework is a game-changer in bias monitoring. It offers a deep perspective on fairness, allowing for comprehensive reporting even without relying on true labels. The only restriction for measuring bias in production lies in performance metrics, as they are directly tied to true labels.
-
-The stages considered are the following:
-1. The dataset used to train the model.
-2. The dataset used in production.
-3. A dataset containing the system’s final decisions, which may include human intervention or another model.
-
-
-
 
 - **Demographic Benchmarking Monitoring**: Perform in-depth analysis of population distribution.
 - **Model Fairness Monitoring**: Ensure equality and detect equity issues in decision-making.
@@ -72,18 +63,48 @@ The stages considered are the following:
 
 - **Audit Subscription** 🔎: Stay compliant with major regulations and laws on bias and fairness.
 
-Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform](https://eticas.ai/itaca/).  
+- [**ITACA Lite** 🛠️](https://eticas.ai/pricing/): Connect to ITACA to monitor your models.
+ 
+Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform](https://eticas.ai/solutions/).  
 
 
 
 | <img src="https://raw.githubusercontent.com/eticasai/eticas-audit/main/docs/itaca_dash.jpg" width="400" /> | <img src="https://raw.githubusercontent.com/eticasai/eticas-audit/main/docs/itaca_overview.jpg" width="400" /> 
 
 
-**COMING SOON** 🎉  
-- **Developer Subscription** 🛠️: Connect to ITACA to monitor your models.
- 
+## 🧪 Monitor Evaluations
 
+You can use the *Eticas Itaca* API to automatically upload the results of your audits and model evaluations. This enables continuous monitoring of your AI systems' performance and fairness, directly from your workflow.
 
+Make sure to generate your API key from your user panel and set the required environment variables before calling the `upload_audit` function. 
+
+```python
+import os
+
+# Set the base URL for the Itaca API
+os.environ['ITACA_BASE_URL'] = "https://itaca.eticas.ai/api/v1/"
+
+# Get your API Key from the user panel and set it here
+os.environ['ITACA_API_TOKEN'] = "API_KEY"
+
+from eticas.utils.api import upload_audit
+
+# Upload the audit by specifying the department and model IDs
+upload_audit(department_id=id,
+             model_id=id,
+             model=model)
+```
+
+## 📡 Additional API Utilities
+
+Additionally, the following utility functions are available to interact with the API and retrieve useful information:
+
+```python
+get_departments()                # List all available departments
+get_models(department=None)      # List models, filtering by department
+get_audits(model=None)           # Retrieve all audits, filtered by model
+get_audit(audit_id=id)         # Retrieve details of a specific audit
+```
 
 ## ⚖️ Metrics
 
@@ -138,10 +159,10 @@ Sensitive attributes can be simple, for example sex or race. They can also be co
 ```json
 {
     "sensitive_attributes": {
-        "sex": {
+        "gender": {
             "columns": [
                 {
-                    "name": "sex",
+                    "name": "gender",
                     "underprivileged": [2]
                 }
             ],
@@ -165,8 +186,8 @@ Sensitive attributes can be simple, for example sex or race. They can also be co
             ],
             "type": "simple"
         },
-        "sex_ethnicity": {
-            "groups": ["sex", "ethnicity"],
+        "gender_ethnicity": {
+            "groups": ["gender", "ethnicity"],
             "type": "complex"
         }
     }
