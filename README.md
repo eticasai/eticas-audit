@@ -63,7 +63,7 @@ This framework is designed to audit AI systems comprehensively across all stages
 
 - **Audit Subscription** 🔎: Stay compliant with major regulations and laws on bias and fairness.
 
-- **Developer Subscription** 🛠️: Connect to ITACA to monitor your models.
+- [**ITACA Lite** 🛠️](https://eticas.ai/pricing/): Connect to ITACA to monitor your models.
  
 Learn more about our platform at [🔗 ITACA – Monitoring & Auditing Platform](https://eticas.ai/solutions/).  
 
